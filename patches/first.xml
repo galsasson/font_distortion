@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Canvas>
+	<Components>
+		<CanvasComponent id="0" type="0" name="Font Distortion" position.x="2678" position.y="1209" size.x="200" size.y="90" showInputPlus="0" showOutputPlus="0" listenPort="6846" bConnected="1" bEditing="0" programHost="localhost" programPort="5000">
+			<InputNodes>
+				<Node id="0-i0" index="0" lastVal="42.3139992" pos.x="6" pos.y="45" name="Resolution" bDisplayName="1" originalVal="30"/>
+				<Node id="0-i1" index="1" lastVal="1.10000002" pos.x="6" pos.y="54" name="Distortion" bDisplayName="1" originalVal="0"/>
+				<Node id="0-i2" index="2" lastVal="1.86000001" pos.x="6" pos.y="63" name="Line Width" bDisplayName="1" originalVal="1"/>
+				<Node id="0-i3" index="3" lastVal="44.4199982" pos.x="6" pos.y="72" name="Line Color" bDisplayName="1" originalVal="50"/>
+				<Node id="0-i4" index="4" lastVal="200" pos.x="6" pos.y="81" name="Background Color" bDisplayName="1" originalVal="200"/>
+			</InputNodes>
+			<OutputNodes/>
+			<TextInput pos.x="4" pos.y="23" minSize.x="192" minSize.y="14" bMultiline="0" text="localhost:5000"/>
+			<ProgramInputs>
+				<ProgramInput name="Resolution" address="/ic" index="0" type="0" value="30"/>
+				<ProgramInput name="Distortion" address="/ic" index="1" type="0" value="0"/>
+				<ProgramInput name="Line Width" address="/ic" index="2" type="0" value="1"/>
+				<ProgramInput name="Line Color" address="/ic" index="3" type="0" value="50"/>
+				<ProgramInput name="Background Color" address="/ic" index="4" type="0" value="200"/>
+			</ProgramInputs>
+			<ProgramOutputs/>
+		</CanvasComponent>
+		<CanvasComponent id="1" type="1" name="Input" position.x="2171" position.y="1167" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="423.139984">
+			<InputNodes>
+				<Node id="1-i0" index="0" lastVal="423.139984" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="423.139984"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="1-o0" index="0" lastVal="423.139984" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="2" type="1" name="Input" position.x="2341" position.y="1475" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="1.86000001">
+			<InputNodes>
+				<Node id="2-i0" index="0" lastVal="1.86000001" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="1.86000001"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="2-o0" index="0" lastVal="1.86000001" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="6" type="5" name="JAVASCRIPT" position.x="2234" position.y="1317" size.x="220" size.y="78" showInputPlus="0" showOutputPlus="0" jsScript="timeline.js" stateJson='{"values":[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,42,42,29,29,29,29,29,29,29,10,10,10,10,10,10,10,10,10,10,9,9,9,9,9,9,9,9,9,9,9,45,44,44,43,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,22,22,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,10,10,10,24,24,24,24,24,24,24,24,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,36,36,36,36,36,36,15,12,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,17,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11,11]}'>
+			<InputNodes>
+				<Node id="6-i0" index="0" lastVal="146.649994" pos.x="6" pos.y="28" name="Frame" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="6-o0" index="0" lastVal="0.219999999" pos.x="214" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="7" type="4" name="EXPRESSION" position.x="2580" position.y="1324" size.x="150" size.y="46" showInputPlus="1" showOutputPlus="1">
+			<InputNodes>
+				<Node id="7-i0" index="0" lastVal="0.219999999" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="7-o0" index="0" lastVal="1.10000002" pos.x="144" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+			<TextInput pos.x="16" pos.y="23" minSize.x="118" minSize.y="14" bMultiline="1" text="out[0] = inn[0]*5;"/>
+		</CanvasComponent>
+		<CanvasComponent id="8" type="5" name="JAVASCRIPT" position.x="2155" position.y="1315" size.x="70" size.y="78" showInputPlus="0" showOutputPlus="0" jsScript="clock.js" stateJson="{}">
+			<InputNodes>
+				<Node id="8-i0" index="0" lastVal="200" pos.x="6" pos.y="28" name="Period" bDisplayName="0" originalVal="0"/>
+				<Node id="8-i1" index="1" lastVal="0.349999994" pos.x="6" pos.y="37" name="Speed" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="8-o0" index="0" lastVal="146.649994" pos.x="64" pos.y="28" name="Value" bDisplayName="0"/>
+				<Node id="8-o1" index="1" lastVal="0" pos.x="64" pos.y="37" name="Loop Start" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="9" type="1" name="Period" position.x="2081" position.y="1295" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="200">
+			<InputNodes>
+				<Node id="9-i0" index="0" lastVal="200" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="200"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="9-o0" index="0" lastVal="200" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="10" type="1" name="Speed" position.x="2075" position.y="1340" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="0.349999994">
+			<InputNodes>
+				<Node id="10-i0" index="0" lastVal="0.349999994" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0.349999994"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="10-o0" index="0" lastVal="0.349999994" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="11" type="1" name="Source" position.x="2396" position.y="1272" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="0">
+			<InputNodes>
+				<Node id="11-i0" index="0" lastVal="0" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="11-o0" index="0" lastVal="0" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="12" type="5" name="JAVASCRIPT" position.x="2508" position.y="1320" size.x="60" size.y="48" showInputPlus="0" showOutputPlus="0" jsScript="switch.js" stateJson='{"selectedInput":1}'>
+			<InputNodes>
+				<Node id="12-i0" index="0" lastVal="0" pos.x="6" pos.y="28" name="Source" bDisplayName="0" originalVal="0"/>
+				<Node id="12-i1" index="1" lastVal="0.219999999" pos.x="6" pos.y="37" name="Source" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="12-o0" index="0" lastVal="0.219999999" pos.x="54" pos.y="28" name="Target" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="13" type="4" name="EXPRESSION" position.x="2401" position.y="1164" size.x="150" size.y="103.200005" showInputPlus="1" showOutputPlus="1">
+			<InputNodes>
+				<Node id="13-i0" index="0" lastVal="423.139984" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="13-o0" index="0" lastVal="42.3139992" pos.x="144" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+			<TextInput pos.x="16" pos.y="23" minSize.x="118" minSize.y="14" bMultiline="1" text="if (inn[0] &gt; 22) {  out[0] = inn[0]/10;} else {  out[0] = 2.2;}"/>
+		</CanvasComponent>
+		<CanvasComponent id="14" type="1" name="NUMBER" position.x="2272" position.y="1440" size.x="60" size.y="40" showInputPlus="0" showOutputPlus="0" value="0">
+			<InputNodes>
+				<Node id="14-i0" index="0" lastVal="0" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="14-o0" index="0" lastVal="0" pos.x="54" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="15" type="2" name="SPLIT" position.x="2431" position.y="1426" size.x="30" size.y="55" showInputPlus="0" showOutputPlus="1">
+			<InputNodes>
+				<Node id="15-i0" index="0" lastVal="1.86000001" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="15-o0" index="0" lastVal="1.86000001" pos.x="24" pos.y="28" name="Output" bDisplayName="0"/>
+				<Node id="15-o1" index="1" lastVal="1.86000001" pos.x="24" pos.y="37" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+		</CanvasComponent>
+		<CanvasComponent id="16" type="4" name="EXPRESSION" position.x="2496" position.y="1407" size.x="207.464005" size.y="46" showInputPlus="1" showOutputPlus="1">
+			<InputNodes>
+				<Node id="16-i0" index="0" lastVal="1.86000001" pos.x="6" pos.y="28" name="Input" bDisplayName="0" originalVal="0"/>
+			</InputNodes>
+			<OutputNodes>
+				<Node id="16-o0" index="0" lastVal="44.4199982" pos.x="201.464005" pos.y="28" name="Output" bDisplayName="0"/>
+			</OutputNodes>
+			<TextInput pos.x="16" pos.y="23" minSize.x="118" minSize.y="14" bMultiline="1" text="out[0] = map(inn[0], 0, 10, 50, 20);"/>
+		</CanvasComponent>
+	</Components>
+	<Wires>
+		<Wire inputID="0-i1" outputID="7-o0"/>
+		<Wire inputID="6-i0" outputID="8-o0"/>
+		<Wire inputID="8-i0" outputID="9-o0"/>
+		<Wire inputID="8-i1" outputID="10-o0"/>
+		<Wire inputID="12-i1" outputID="6-o0"/>
+		<Wire inputID="12-i0" outputID="11-o0"/>
+		<Wire inputID="7-i0" outputID="12-o0"/>
+		<Wire inputID="0-i0" outputID="13-o0"/>
+		<Wire inputID="13-i0" outputID="1-o0"/>
+		<Wire inputID="15-i0" outputID="2-o0"/>
+		<Wire inputID="16-i0" outputID="15-o1"/>
+		<Wire inputID="0-i2" outputID="15-o0"/>
+		<Wire inputID="0-i3" outputID="16-o0"/>
+	</Wires>
+</Canvas>
+

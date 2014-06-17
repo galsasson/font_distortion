@@ -1,0 +1,14 @@
+<group>
+	<Resolution>94.5</Resolution>
+	<Distortion>1</Distortion>
+	<Distortion_Speed>0.133</Distortion_Speed>
+	<LineWidth>7.1</LineWidth>
+	<Line_Color>255, 255, 255, 255</Line_Color>
+	<Background_Color>0, 71, 93, 255</Background_Color>
+<group/>
+<Distortion_I.Prog>100</Distortion_I.Prog>
+<Temp_Var>0</Temp_Var>
+<TV_Lines_Intensity>0</TV_Lines_Intensity>
+<TV_Flicker_Intensity>0</TV_Flicker_Intensity>
+<Color_Separation>0</Color_Separation>
+</group>
