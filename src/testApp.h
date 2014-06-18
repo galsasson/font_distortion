@@ -27,25 +27,29 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
 private:
-    
-    void initGui();
-    void drawQuote();
 
-    vector<std::string> quote;
+	void initGui();
+	void drawQuote();
+	void drawWithDistShader();
+	void drawWithFlowShader();
 
-    FlowField flowField;
-    
-    vector<WildChar*> chars;
-    
-    ofxPanel gui;
-    
-    ofShader tvShader;
-    ofFbo virgin;
-    ofFbo second;
-    ofShader distShader;
-    
-    float time;
-    
-    void setupString(string str);
-		
+	vector<std::string> quote;
+
+	FlowField flowField;
+	ofShader flowFieldShader;
+
+	vector<WildChar*> chars;
+
+	ofxPanel gui;
+
+	ofShader tvShader;
+	ofFbo virgin;
+	ofFbo second;
+	ofShader distShader;
+
+	float time;
+
+	void setupString(string str);
+
+	ofEasyCam cam;
 };

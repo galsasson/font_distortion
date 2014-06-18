@@ -3,7 +3,7 @@
 
 //========================================================================
 int main( ){
-    ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);	// this kicks off the
+	ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);	// this kicks off the
 	ofSetupOpenGL(1280,720,OF_WINDOW);			// <-------- setup the GL context
 
 	// can be OF_WINDOW or OF_FULLSCREEN

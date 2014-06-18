@@ -15,17 +15,21 @@
 class Params
 {
 public:
-    static ofxFloatSlider distIntensity;
-    static ofxFloatSlider distSpeed;
-    
-    static ofxColorSlider lineColor;
-    static ofxColorSlider backgroundColor;
-    
-    static ofxFloatSlider tvColorSeparation;
-    static ofxFloatSlider tvLinesIntensity;
-    static ofxFloatSlider tvFlickerIntensity;
-    
-    static ofxFloatSlider tempVar;
+	static ofxFloatSlider distIntensity;
+	static ofxFloatSlider distSpeed;
+
+	static ofxColorSlider lineColor;
+	static ofxColorSlider backgroundColor;
+
+	static ofxFloatSlider tvColorSeparation;
+	static ofxFloatSlider tvLinesIntensity;
+	static ofxFloatSlider tvFlickerIntensity;
+
+	static ofxFloatSlider flowFieldDistortion;
+	static ofxFloatSlider zDistScale;
+	static ofxFloatSlider flowFieldColor;
+
+	static ofxFloatSlider tempVar;
 };
 
 #endif /* defined(__font_distortion__Params__) */

@@ -18,4 +18,8 @@ ofxFloatSlider Params::tvColorSeparation;
 ofxFloatSlider Params::tvLinesIntensity;
 ofxFloatSlider Params::tvFlickerIntensity;
 
+ofxFloatSlider Params::flowFieldDistortion;
+ofxFloatSlider Params::zDistScale;
+ofxFloatSlider Params::flowFieldColor;
+
 ofxFloatSlider Params::tempVar;

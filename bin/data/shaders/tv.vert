@@ -23,11 +23,11 @@ out vec2 fixedCoord;
 
 void main()
 {
-    // here we move the texture coordinates
-    vTexCoord = texcoord;
-    fixedCoord = vec2(position.x, position.y);
-    vColor = color;
-    
-    // send the vertices to the fragment shader
-    gl_Position = modelViewProjectionMatrix * position;
+	// here we move the texture coordinates
+	vTexCoord = texcoord;
+	fixedCoord = vec2(position.x, position.y);
+	vColor = color;
+
+	// send the vertices to the fragment shader
+	gl_Position = modelViewProjectionMatrix * position;
 }

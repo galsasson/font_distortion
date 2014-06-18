@@ -18,22 +18,22 @@
 class WildChar
 {
 public:
-    void setup(float x, float y, char c);
-    void update(float time);
-    void draw();
-    
+	void setup(float x, float y, char c);
+	void update(float time);
+	void draw();
+
 private:
-    char chr;
-    ofVec2f pos;
-//    float resolution;
-    
-    
-    void calcPoints(float time);
-    
-    ofTTFCharacter ttfchar;
-    vector<ofPolyline> charOutline;
-    vector<vector<ofPoint> > charPoints;
-    vector<vector<ofVec2f> > offsets;
+	char chr;
+	ofVec2f pos;
+	//    float resolution;
+
+
+	void calcPoints(float time);
+
+	ofTTFCharacter ttfchar;
+	vector<ofPolyline> charOutline;
+	vector<vector<ofPoint> > charPoints;
+	vector<vector<ofVec2f> > offsets;
 
 };
 

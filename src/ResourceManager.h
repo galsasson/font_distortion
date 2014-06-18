@@ -15,21 +15,21 @@
 class ResourceManager
 {
 public:
-    static ResourceManager& getInstance()
-    {
-        static ResourceManager instance;
-        // Instantiated on first use.
-        return instance;
-    }
+	static ResourceManager& getInstance()
+	{
+		static ResourceManager instance;
+		// Instantiated on first use.
+		return instance;
+	}
 
-    ofTrueTypeFont font;
-    
+	ofTrueTypeFont font;
+
 private:
-    ResourceManager();
+	ResourceManager();
 
-    // make sure there are no copies
-    ResourceManager(ResourceManager const&);
-    void operator=(ResourceManager const&);
+	// make sure there are no copies
+	ResourceManager(ResourceManager const&);
+	void operator=(ResourceManager const&);
 
 };
 #endif /* defined(__tunnelvars__ResourceManager__) */

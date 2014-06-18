@@ -1,26 +1,5 @@
 #version 150
 
-// these are for the programmable pipeline system and are passed in
-// by default from OpenFrameworks
-uniform mat4 modelViewMatrix;
-uniform mat4 projectionMatrix;
-uniform mat4 textureMatrix;
-uniform mat4 modelViewProjectionMatrix;
-
-in vec4 position;
-in vec4 color;
-in vec4 normal;
-in vec2 texcoord;
-// this is the end of the default functionality
-
-// this is something we're creating for this shader
-out vec2 vTexCoord;
-out vec2 fixedCoord;
-out vec4 vColor;
-
-// this is coming from our C++ code
-uniform vec2 time2d;
-uniform float distIntensity;
 
 /**************************************************************/
 //
@@ -95,17 +74,56 @@ float snoise(vec2 v)
 }
 /**************************************************************/
 
+// these are for the programmable pipeline system and are passed in
+// by default from OpenFrameworks
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
+uniform mat4 textureMatrix;
+uniform mat4 modelViewProjectionMatrix;
+
+in vec4 position;
+in vec4 color;
+in vec4 normal;
+in vec2 texcoord;
+// this is the end of the default functionality
+
+// this is something we're creating for this shader
+out vec2 vTexCoord;
+out vec2 fixedCoord;
+out vec4 vColor;
+out vec4 outPosition;
+
+// this is coming from our C++ code
+uniform vec2 time2d;
+uniform float distIntensity;
+uniform float flowFieldDistortion;
+uniform float distZScale;
+uniform sampler2D fontTex;
+uniform sampler2DRect flowFieldTex;
+
 
 void main()
 {
 	// here we move the texture coordinates
 	vTexCoord = vec2(texcoord.x, texcoord.y);
-	fixedCoord = vec2(position.x, position.y);
-	vColor = color;
 
+	// add noise
+	float xNoise = snoise(position.xy + time2d)*distIntensity;
+	float yNoise = snoise(position.xy + time2d + vec2(1000, 1000))*distIntensity;
+
+	// get the flow field vectors
+	vColor = texture(flowFieldTex, position.xy/2.0);
+	float xDisp = vColor.r - 0.5;
+	float yDisp = vColor.g - 0.5;
+	float zDisp = vColor.b - 0.5;
+	vec4 dispVec = vec4(xDisp * 100 * flowFieldDistortion + xNoise,
+						yDisp * 100 * flowFieldDistortion + yNoise,
+						-zDisp * 1000 * distZScale,
+						0.0);
+	
+	vec4 newPos = position + dispVec;
+	
+	
 	// send the vertices to the fragment shader
-	gl_Position = modelViewProjectionMatrix * position + vec4(
-					snoise(fixedCoord + time2d)*distIntensity,
-					snoise(fixedCoord + time2d + vec2(1000, 1000))*distIntensity,
-					0.0, 0.0);
+	gl_Position = modelViewProjectionMatrix * newPos;
 }

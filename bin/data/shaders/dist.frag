@@ -10,6 +10,6 @@ in vec4 vColor;
 out vec4 outColor;
 
 void main(void) {
-    vec4 texel = texture(fontTex, vTexCoord);
-    outColor = vec4(globalColor.rgb, texel.a);
+	vec4 texel = texture(fontTex, vTexCoord);
+	outColor = vec4(globalColor.rgb, texel.a);
 }

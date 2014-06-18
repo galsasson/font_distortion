@@ -15,17 +15,17 @@
 class FlowField
 {
 public:
-    FlowField();
-    void setup(float width, float height);
-    void randomize();
-    
-    void draw(float x = 0, float y = 0, float width = -1, float height = -1);
-    
-    ofTexture& getTextureRef() { return fbo.getTextureReference(); }
-    
+	FlowField();
+	void setup(float width, float height);
+	void randomize();
+
+	void draw(float x = 0, float y = 0, float width = -1, float height = -1);
+
+	ofTexture& getTextureRef() { return fbo.getTextureReference(); }
+
 private:
-    ofFbo fbo;
-        
+	ofFbo fbo;
+    
 };
 
 #endif /* defined(__font_distortion__FlowField__) */

@@ -35,37 +35,43 @@ out vec4 outColor;
 
 void main(void) {
 
-    vec2 position = vTexCoord / resolution.xy;
-    position.y *=-1.0;
-    vec3 color;
-    
-    //color separation
-    vec2 texPos = position * resolution;
-    color.r = texture(tex0,vec2(texPos.x+colorSeparation,-texPos.y)).x;
-    color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
-    color.b = texture(tex0,vec2(texPos.x-colorSeparation,-texPos.y)).z;
-    
-    //contrast
-    color = clamp(color*0.5+0.5*color*color*1.2,0.0,1.0);
-    
-    //circular vignette fade
-    color *= 0.5 + 0.5*16.0*position.x*position.y*(1.0-position.x)*(-1.0-position.y);
-    
-    //color shift
-    //color *= vec3(0.8,1.0,0.7); //green
-    color *= vec3(0.95,0.85,1.0); //blue
-    //color *= vec3(1.0,0.8,0.1); //red
-    //color *= vec3(1.0,0.7,1.0); //purple
-    //color *= vec3(0.7,1.0,1.0); //cyan
-    //color *= vec3(1.0,1.0,0.7); //yellow
-//    float gray = dot(color, vec3(0.299, 0.587, 0.114));
-//    color = vec3(gray, gray, gray); //gray
-    
-    //tvlines effect
-    color *= (1.0-linesIntensity)+linesIntensity*sin(10.0*time+position.y*1000.0);
-    
-    //tv flicker effect
-    color *= (1.0-flickerIntensity) + flickerIntensity*sin(110.0*time);
-    
-    outColor = vec4(color,1.0);
+	vec2 position = vTexCoord / resolution.xy;
+	position.y *=-1.0;
+	vec3 color;
+
+	//color separation
+	vec2 texPos = position * resolution;
+	// on x
+	color.r = texture(tex0,vec2(texPos.x+colorSeparation,-texPos.y)).x;
+	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
+	color.b = texture(tex0,vec2(texPos.x-colorSeparation,-texPos.y)).z;
+
+	// on y
+	color.r = texture(tex0,vec2(texPos.x,-texPos.y+colorSeparation)).x;
+	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
+	color.b = texture(tex0,vec2(texPos.x,-texPos.y-colorSeparation)).z;
+
+	//contrast
+	color = clamp(color*0.5+0.5*color*color*1.2,0.0,1.0);
+
+	//circular vignette fade
+	color *= 0.5 + 0.5*16.0*position.x*position.y*(1.0-position.x)*(-1.0-position.y);
+
+	//color shift
+	//color *= vec3(0.8,1.0,0.7); //green
+	color *= vec3(0.95,0.85,1.0); //blue
+	//color *= vec3(1.0,0.8,0.1); //red
+	//color *= vec3(1.0,0.7,1.0); //purple
+	//color *= vec3(0.7,1.0,1.0); //cyan
+	//color *= vec3(1.0,1.0,0.7); //yellow
+	//    float gray = dot(color, vec3(0.299, 0.587, 0.114));
+	//    color = vec3(gray, gray, gray); //gray
+
+	//tvlines effect
+	color *= (1.0-linesIntensity)+linesIntensity*sin(10.0*time+position.y*1000.0);
+
+	//tv flicker effect
+	color *= (1.0-flickerIntensity) + flickerIntensity*sin(110.0*time);
+
+	outColor = vec4(color,1.0);
 }
