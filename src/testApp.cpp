@@ -35,8 +35,10 @@ void testApp::setup(){
 	flowFieldShader.load("shaders/flowfield");
 
 	flowField.setup(ofGetWindowWidth(), ofGetWindowHeight());
-	flowField.randomize();
-//    setupString("neutral.");
+//	flowField.addRepulsion(ofVec2f(500, 500), 50, 5);
+//	flowField.addAttractor(ofVec2f(800, 500), 50, 5);
+//	flowField.randomize();
+	flowField.randomizeForces();
 }
 
 void testApp::initGui()
