@@ -30,6 +30,24 @@ void testApp::setup(){
 	second.begin();
 	ofClear(0, 0, 0, 255);
 	second.end();
+	colorTexture.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, OF_IMAGE_COLOR_ALPHA);
+	for (int y=0; y<colorTexture.getHeight(); y++)
+	{
+		for (int x=0; x<colorTexture.getWidth(); x++)
+		{
+			colorTexture.setColor(x, y, ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
+		}
+	}
+	colorTexture.update();
+	
+	quoteOnly.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, GL_RGBA);
+	quoteOnly.begin();
+	ofClear(0, 0, 0, 0);
+//	ofSetColor(Params::lineColor, 0.5);
+	ofSetColor(1, 1, 1, 0);
+	drawQuote(quoteOnly.getWidth(), quoteOnly.getHeight());
+	quoteOnly.end();
+	
 	tvShader.load("shaders/tv");
 	distShader.load("shaders/dist");
 	flowFieldShader.load("shaders/flowfield");
@@ -92,7 +110,7 @@ void testApp::drawWithDistShader()
 	distShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
 	distShader.setUniform1f("distIntensity", Params::distIntensity);
 
-	drawQuote();
+	drawQuote(second.getWidth(), second.getHeight());
 
 	distShader.end();
 	second.end();
@@ -108,6 +126,7 @@ void testApp::drawWithFlowShader()
 	flowFieldShader.begin();
 	flowFieldShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
 	flowFieldShader.setUniformTexture("flowFieldTex", flowField.getTextureRef(), 2);
+	flowFieldShader.setUniformTexture("colorTex", colorTexture.getTextureReference(), 3);
 	flowFieldShader.setUniform2f("time2d", time, time+10000);
 	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
 	flowFieldShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
@@ -116,7 +135,7 @@ void testApp::drawWithFlowShader()
 	flowFieldShader.setUniform1f("distZScale", Params::zDistScale);
 	flowFieldShader.setUniform1f("flowFieldColor", Params::flowFieldColor);
 
-	drawQuote();
+	drawQuote(second.getWidth(), second.getHeight());
 
 	flowFieldShader.end();
 	second.end();
@@ -145,6 +164,8 @@ void testApp::draw()
 
 	tvShader.end();
 
+	quoteOnly.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+	
 	virgin.draw(0, 0, 200, 130);
 	second.draw(200, 0, 200, 130);
 	flowField.draw(400, 0, 200, 130);
@@ -232,9 +253,9 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void testApp::drawQuote()
+void testApp::drawQuote(float resx, float resy)
 {
-	ofVec2f resolution(1280*2, 720*2);
+	ofVec2f resolution(resx, resy);
 	float quoteHeight = 0;
 	for (int i=0; i<quote.size(); i++)
 	{
@@ -245,7 +266,8 @@ void testApp::drawQuote()
 	for (int i=0; i<quote.size(); i++)
 	{
 		float x = (resolution.x - ResourceManager::getInstance().font.stringWidth(quote[i]))/2;
-		ResourceManager::getInstance().font.getStringMesh(quote[i], x, y).draw();
+		ResourceManager::getInstance().font.drawString(quote[i], x, y);
+//		ResourceManager::getInstance().font.getStringMesh(quote[i], x, y).draw();
 		y+= ResourceManager::getInstance().font.stringHeight(quote[i]);
 	}
 }

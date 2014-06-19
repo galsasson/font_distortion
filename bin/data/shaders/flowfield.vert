@@ -100,6 +100,7 @@ uniform float flowFieldDistortion;
 uniform float distZScale;
 uniform sampler2D fontTex;
 uniform sampler2DRect flowFieldTex;
+uniform sampler2DRect colorTex;
 
 
 void main()
@@ -111,11 +112,14 @@ void main()
 	float xNoise = snoise(position.xy + time2d)*distIntensity;
 	float yNoise = snoise(position.xy + time2d + vec2(1000, 1000))*distIntensity;
 
+	// get the color
+	vColor = texture(colorTex, position.xy/2.0);
+
 	// get the flow field vectors
-	vColor = texture(flowFieldTex, position.xy/2.0);
-	float xDisp = vColor.r - 0.5;
-	float yDisp = vColor.g - 0.5;
-	float zDisp = vColor.b - 0.5;
+	vec4 disp = texture(flowFieldTex, position.xy/2.0);
+	float xDisp = disp.r - 0.5;
+	float yDisp = disp.g - 0.5;
+	float zDisp = disp.b - 0.5;
 	vec4 dispVec = vec4(xDisp * 100 * flowFieldDistortion + xNoise,
 						yDisp * 100 * flowFieldDistortion + yNoise,
 						-zDisp * 1000 * distZScale,

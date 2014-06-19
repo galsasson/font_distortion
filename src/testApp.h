@@ -29,7 +29,7 @@ class testApp : public ofBaseApp{
 private:
 
 	void initGui();
-	void drawQuote();
+	void drawQuote(float resx, float resy);
 	void drawWithDistShader();
 	void drawWithFlowShader();
 
@@ -45,6 +45,8 @@ private:
 	ofShader tvShader;
 	ofFbo virgin;
 	ofFbo second;
+	ofFbo quoteOnly;
+	ofImage colorTexture;
 	ofShader distShader;
 
 	float time;

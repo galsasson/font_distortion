@@ -47,9 +47,9 @@ void main(void) {
 	color.b = texture(tex0,vec2(texPos.x-colorSeparation,-texPos.y)).z;
 
 	// on y
-	color.r = texture(tex0,vec2(texPos.x,-texPos.y+colorSeparation)).x;
-	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
-	color.b = texture(tex0,vec2(texPos.x,-texPos.y-colorSeparation)).z;
+//	color.r = texture(tex0,vec2(texPos.x,-texPos.y+colorSeparation)).x;
+//	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
+//	color.b = texture(tex0,vec2(texPos.x,-texPos.y-colorSeparation)).z;
 
 	//contrast
 	color = clamp(color*0.5+0.5*color*color*1.2,0.0,1.0);
@@ -59,7 +59,7 @@ void main(void) {
 
 	//color shift
 	//color *= vec3(0.8,1.0,0.7); //green
-	color *= vec3(0.95,0.85,1.0); //blue
+//	color *= vec3(0.95,0.85,1.0); //blue
 	//color *= vec3(1.0,0.8,0.1); //red
 	//color *= vec3(1.0,0.7,1.0); //purple
 	//color *= vec3(0.7,1.0,1.0); //cyan

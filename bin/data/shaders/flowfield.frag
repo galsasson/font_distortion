@@ -3,6 +3,7 @@
 uniform vec4 globalColor;
 uniform sampler2D fontTex;
 uniform sampler2DRect flowFieldTex;
+uniform sampler2DRect colorTex;
 uniform float flowFieldColor;
 
 in vec2 vTexCoord;
