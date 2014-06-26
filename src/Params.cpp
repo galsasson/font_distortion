@@ -22,4 +22,12 @@ ofxFloatSlider Params::flowFieldDistortion;
 ofxFloatSlider Params::zDistScale;
 ofxFloatSlider Params::flowFieldColor;
 
+ofxToggle Params::drawFixedQuote;
+ofxFloatSlider Params::fixedQuoteAlpha;
+
+ofxToggle Params::mouseRepulsion;
+
 ofxFloatSlider Params::tempVar;
+
+ofxToggle Params::bShader;
+ofxFloatSlider Params::bShaderRotSpeed;

@@ -29,7 +29,15 @@ public:
 	static ofxFloatSlider zDistScale;
 	static ofxFloatSlider flowFieldColor;
 
+	static ofxToggle drawFixedQuote;
+	static ofxFloatSlider fixedQuoteAlpha;
+	
+	static ofxToggle mouseRepulsion;
+	
 	static ofxFloatSlider tempVar;
+	
+	static ofxToggle bShader;
+	static ofxFloatSlider bShaderRotSpeed;
 };
 
 #endif /* defined(__font_distortion__Params__) */

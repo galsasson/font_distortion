@@ -41,6 +41,7 @@ private:
 	vector<WildChar*> chars;
 
 	ofxPanel gui;
+	bool bToggleGui;
 
 	ofShader tvShader;
 	ofFbo virgin;
@@ -54,4 +55,10 @@ private:
 	void setupString(string str);
 
 	ofEasyCam cam;
+	
+	ofShader backgroundShader;
+	ofPlanePrimitive plane;
+	ofFbo background;
+	float bShaderTime;
+	void renderBackground();
 };

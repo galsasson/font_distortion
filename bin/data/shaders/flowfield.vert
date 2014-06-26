@@ -112,6 +112,10 @@ void main()
 	float xNoise = snoise(position.xy + time2d)*distIntensity;
 	float yNoise = snoise(position.xy + time2d + vec2(1000, 1000))*distIntensity;
 
+	// bigger noise
+//	float shift = fract(position.x/1000)*snoise(time2d);
+//	yNoise += shift*1000;//snoise(position.xy + (time2d/10))*distIntensity*4;
+	
 	// get the color
 	vColor = texture(colorTex, position.xy/2.0);
 

@@ -27,7 +27,23 @@ void FlowField::setup(int w, int h)
 
 void FlowField::update()
 {
-    
+	if (Params::mouseRepulsion)
+	{
+		reset();
+		ofVec2f mousePos(ofGetMouseX(), ofGetMouseY());
+		addRepulsion(ofVec2f(ofGetMouseX(), ofGetMouseY()), 100, 10);
+//		addLineRepulsion(mousePos - ofVec2f(0, 100), mousePos + ofVec2f(0, 100), 5);
+//		for (int y=ofGetMouseY()-100; y<ofGetMouseY()+100; y++)
+//		{
+//			for (int x=ofGetMouseX()-100; x<ofGetMouseX()+100; x++)
+//			{
+//				ofFloatColor c = field.getColor(x, y);
+//				c += ofFloatColor(ofRandom(0.5), ofRandom(0.5), ofRandom(0.5));
+//				field.setColor(x, y, c);
+//			}
+//			
+//		}
+	}
 }
 
 void FlowField::draw(float x, float y, float w, float h)
@@ -161,7 +177,7 @@ void FlowField::addLineRepulsion(const ofVec2f &p, const ofVec2f &q, float stren
     ofVec2f perp = line.getPerpendicular();
     ofVec2f perp2 = line.getPerpendicular() * -1;
     
-    for (float t=0; t<1; t+=0.2)
+    for (float t=0; t<1; t+=0.01)
     {
         addForce(p + line*t + perp*5, 10, perp*strength, false);
         addForce(p + line*t + perp2*5, 10, perp2*strength, false);

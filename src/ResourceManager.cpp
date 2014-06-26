@@ -10,5 +10,5 @@
 
 ResourceManager::ResourceManager()
 {
-	font.loadFont("futura.ttf", 34, true, true, true);
+	font.loadFont("futura.ttf", 30, true, true, true);
 }

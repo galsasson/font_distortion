@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include "ofMain.h"
+#include "Params.h"
 
 #define COLOR(fx, fy) \
 	ofFloatColor(0.5+fx*0.1, 0.5+fy*0.1, 0.0, 1.0)

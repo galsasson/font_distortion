@@ -16,11 +16,13 @@ void testApp::setup(){
 
 	initGui();
 
-	quote.push_back("If it should turn out to be true that knowledge (in the modern sense of know-how)\n");
-	quote.push_back("and thought have parted company for good, then we would indeed become\n");
-	quote.push_back("the helpless slaves, not so much of our machines as of our know-how,\n");
-	quote.push_back("thoughtless creatures at the mercy of every gadget which is technically possible,\n");
-	quote.push_back("no matter how murderous it is.");
+	quote.push_back("If it should turn out to be true that knowledge (in the modern sense of know-how) and thought");
+	quote.push_back("have parted company for good, then we would indeed become the helpless slaves, not so much");
+	quote.push_back("of our machines as of our know-how, thoughtless creatures at the mercy of every gadget which");
+	quote.push_back("is technically possible, no matter how murderous it is.");
+	quote.push_back("");
+	quote.push_back("Hannah Arendt");
+	quote.push_back("The Human Condition, Prologue");
 
 	virgin.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGBA);
 	virgin.begin();
@@ -43,8 +45,7 @@ void testApp::setup(){
 	quoteOnly.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, GL_RGBA);
 	quoteOnly.begin();
 	ofClear(0, 0, 0, 0);
-//	ofSetColor(Params::lineColor, 0.5);
-	ofSetColor(1, 1, 1, 0);
+	ofSetColor(Params::lineColor, 100);
 	drawQuote(quoteOnly.getWidth(), quoteOnly.getHeight());
 	quoteOnly.end();
 	
@@ -57,6 +58,15 @@ void testApp::setup(){
 //	flowField.addAttractor(ofVec2f(800, 500), 50, 5);
 //	flowField.randomize();
 	flowField.randomizeForces();
+
+	time = 0;
+
+	background.allocate(ofGetWindowWidth(), ofGetWindowHeight());
+	backgroundShader.load("shaders/background");
+	plane.set(ofGetWindowWidth(), ofGetWindowHeight());
+	plane.setPosition(ofGetWindowWidth()/2, ofGetWindowHeight()/2, 0);
+	plane.setResolution(2, 2);
+	bShaderTime = 0;
 }
 
 void testApp::initGui()
@@ -74,9 +84,19 @@ void testApp::initGui()
 	Params::tvLinesIntensity.setup("TV Lines Intensity", 0.1, 0, 1);
 	Params::tvFlickerIntensity.setup("TV Flicker Intensity", 0.03, 0, 1);
 
+	Params::drawFixedQuote.setup("Draw fixed quote", false);
+	Params::fixedQuoteAlpha.setup("Fixed quote alpha", 255, 0, 255);
+	
+	Params::mouseRepulsion.setup("Mouse Repulsion", false);
+	
 	Params::tempVar.setup("Temp Var", 0, 0, 1);
+	
+	Params::bShader.setup("Shader Background", false);
+	Params::bShaderRotSpeed.setup("bShader rotation speed", 0.01, 0, 1);
 
 	gui.setup();
+	gui.add(&Params::bShader);
+	gui.add(&Params::bShaderRotSpeed);
 	gui.add(&Params::distIntensity);
 	gui.add(&Params::distSpeed);
 
@@ -89,11 +109,14 @@ void testApp::initGui()
 	gui.add(&Params::tvFlickerIntensity);
 	gui.add(&Params::lineColor);
 	gui.add(&Params::backgroundColor);
+	gui.add(&Params::drawFixedQuote);
+	gui.add(&Params::fixedQuoteAlpha);
+	gui.add(&Params::mouseRepulsion);
 	gui.add(&Params::tempVar);
 
 	gui.loadFromFile("settings.xml");
 
-	time = 0;
+	bToggleGui = true;
 }
 
 void testApp::drawWithDistShader()
@@ -119,14 +142,22 @@ void testApp::drawWithDistShader()
 void testApp::drawWithFlowShader()
 {
 	second.begin();
-	ofSetColor(Params::backgroundColor);
-	ofFill();
-	ofRect(0, 0, second.getWidth(), second.getHeight());
+	ofClear(0, 0, 0, 0);
+	if (!Params::bShader) {
+		ofSetColor(Params::backgroundColor);
+		ofFill();
+		ofRect(0, 0, second.getWidth(), second.getHeight());
+	}
 
 	flowFieldShader.begin();
 	flowFieldShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
+#if 1
+	flowFieldShader.setUniformTexture("flowFieldTex", background.getTextureReference(), 2);
+	flowFieldShader.setUniformTexture("colorTex", background.getTextureReference(), 3);
+#else
 	flowFieldShader.setUniformTexture("flowFieldTex", flowField.getTextureRef(), 2);
 	flowFieldShader.setUniformTexture("colorTex", colorTexture.getTextureReference(), 3);
+#endif
 	flowFieldShader.setUniform2f("time2d", time, time+10000);
 	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
 	flowFieldShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
@@ -138,6 +169,13 @@ void testApp::drawWithFlowShader()
 	drawQuote(second.getWidth(), second.getHeight());
 
 	flowFieldShader.end();
+	
+	if (Params::drawFixedQuote) {
+		ofSetColor(Params::lineColor, Params::fixedQuoteAlpha);
+		drawQuote(second.getWidth(), second.getHeight());
+	}
+	
+
 	second.end();
 }
 
@@ -145,30 +183,38 @@ void testApp::drawWithFlowShader()
 void testApp::update(){
 
 	time += Params::distSpeed;
-
+	bShaderTime += Params::bShaderRotSpeed;
+	flowField.update();
+	
+	if (Params::bShader) {
+		renderBackground();
+	}
+	
 	drawWithFlowShader();
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
-	tvShader.begin();
-	tvShader.setUniform1f("time", (float)ofGetFrameNum()/60);
-	tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
-	tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
-	tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
-	tvShader.setUniform1f("flickerIntensity", Params::tvFlickerIntensity);
+	if (Params::bShader)
+	{
+		background.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+		ofSetColor(255);
+		second.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+	}
+	else {
+		tvShader.begin();
+		tvShader.setUniform1f("time", (float)ofGetFrameNum()/60);
+		tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
+		tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
+		tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
+		tvShader.setUniform1f("flickerIntensity", Params::tvFlickerIntensity);
 
-	ofSetColor(255);
-	second.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+		ofSetColor(255);
+		second.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 
-	tvShader.end();
-
-	quoteOnly.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-	
-	virgin.draw(0, 0, 200, 130);
-	second.draw(200, 0, 200, 130);
-	flowField.draw(400, 0, 200, 130);
+		tvShader.end();
+	}
 	
 #if 0
 	ofSetColor(Params::lineColor);
@@ -179,7 +225,15 @@ void testApp::draw()
 	}
 #endif
 
-	gui.draw();
+	if (bToggleGui) {
+		ofSetColor(255);
+		quoteOnly.draw(0, 0, 200, 130);
+		second.draw(200, 0, 200, 130);
+		flowField.draw(400, 0, 200, 130);
+		colorTexture.draw(600, 0, 200, 130);
+		
+		gui.draw();
+	}
 }
 
 void testApp::setupString(string str)
@@ -210,6 +264,9 @@ void testApp::keyPressed(int key){
 	}
 	else if(key == 'l') {
 		gui.loadFromFile("settings.xml");
+	}
+	else if (key == 'h') {
+		bToggleGui = !bToggleGui;
 	}
 }
 
@@ -259,15 +316,32 @@ void testApp::drawQuote(float resx, float resy)
 	float quoteHeight = 0;
 	for (int i=0; i<quote.size(); i++)
 	{
-		quoteHeight += ResourceManager::getInstance().font.stringHeight(quote[i]);
+		quoteHeight += ResourceManager::getInstance().font.stringHeight(quote[i])+50;
 	}
 
-	float y = (resolution.y - quoteHeight)/2 + 300;
+//	float y = (resolution.y - quoteHeight)/2 + 300;
 	for (int i=0; i<quote.size(); i++)
 	{
-		float x = (resolution.x - ResourceManager::getInstance().font.stringWidth(quote[i]))/2;
+		float x = 150;
+		float y = 400+quoteHeight / quote.size() * i;
+		// (resolution.x - ResourceManager::getInstance().font.stringWidth(quote[i]))/2;
 		ResourceManager::getInstance().font.drawString(quote[i], x, y);
 //		ResourceManager::getInstance().font.getStringMesh(quote[i], x, y).draw();
-		y+= ResourceManager::getInstance().font.stringHeight(quote[i]);
 	}
+}
+
+void testApp::renderBackground()
+{
+	background.begin();
+	backgroundShader.begin();
+	backgroundShader.setUniform1f("iGlobalTime", bShaderTime);
+	backgroundShader.setUniform3f("iResolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2, 0);
+	backgroundShader.setUniform1f("iRotSpeed", Params::bShaderRotSpeed);
+	backgroundShader.setUniformTexture("iChannel0", colorTexture.getTextureReference(), 1);
+	//	backgroundShader.setUniformTexture("iChannel0", flowField.getTextureRef(), 1);
+	//	ofSetColor(100, 0, 0);
+	ofSetColor(Params::backgroundColor);
+	plane.draw();
+	backgroundShader.end();
+	background.end();
 }
