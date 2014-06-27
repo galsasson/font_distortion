@@ -43,10 +43,15 @@ private:
 	ofxPanel gui;
 	bool bToggleGui;
 
+	ofFbo backgroundFbo;
+	ofFbo fractalShaderFbo;
+	ofFbo font0Fbo;
+	ofFbo font1Fbo;
+	
 	ofShader tvShader;
-	ofFbo virgin;
-	ofFbo second;
-	ofFbo quoteOnly;
+//	ofFbo virgin;
+//	ofFbo second;
+//	ofFbo quoteOnly;
 	ofImage colorTexture;
 	ofShader distShader;
 
@@ -58,12 +63,17 @@ private:
 	
 	ofShader backgroundShader;
 	ofPlanePrimitive plane;
-	ofFbo background;
 //	float bShaderTime;
 	void renderBackground();
 	
 	void renderColorTexture();
 	
 	void renderBoxedQuote();
+	
+	ofShader normalFontShader;
+	void renderNormalQuote();
+	
+	bool bToggleFont0 = true;
+	bool bToggleFont1 = true;
 	
 };

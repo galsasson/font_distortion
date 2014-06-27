@@ -14,9 +14,12 @@ in vec2 texcoord;
 // this is the end of the default functionality
 
 // this is something we're creating for this shader
+uniform sampler2DRect colorTex;
+
 out vec2 vTexCoord;
 out vec2 fixedCoord;
 out vec4 vColor;
+out float bPaint;
 
 // this is coming from our C++ code
 uniform vec2 time2d;
@@ -101,13 +104,46 @@ void main()
 	// here we move the texture coordinates
 	vTexCoord = vec2(texcoord.x, texcoord.y);
 	fixedCoord = vec2(position.x, position.y);
-	vColor = vec4(gl_VertexID/1000., 0., 0., 1.);
+	vColor = texture(colorTex, position.xy/2.0);
 	
 	int letterIndex = gl_VertexID/4;
 	int vertIndex = gl_VertexID%4;
+
+	int phase = int(floor(time2d.x*15));
+
+	// change rect porportions
+	float noise1 = (snoise(vec2(letterIndex*10.+500., phase))-0.5)*distIntensity;
+	float noise2 = (snoise(vec2(letterIndex*10.+250., phase))-0.5)*distIntensity;
+	vec4 tlOffset = vec4(-noise1, -noise2, 0., 0.);
+	vec4 brOffset = vec4(noise1, noise2, 0., 0.);
 	
-	float t = snoise(vec2(letterIndex*10., floor(time2d.x*15)));
-	vec4 movement = vec4(t*10., 0., 0., 0.);
+	vec4 movement = vec4(0);
+	if (true)//(phase)%3==0)
+	{
+		float tx = snoise(vec2(letterIndex*10., phase));
+		float ty = snoise(vec2(letterIndex*10.+1000, phase));
+//		float scale = snoise(vec2(vertIndex*10.+2000, phase)) * 5;
+		movement = vec4(tx*distIntensity, ty*distIntensity, 0., 0.);
+		
+		if (vertIndex==0) {
+			movement += tlOffset;
+		}
+		else if (vertIndex==1) {
+			movement.x += brOffset.x;
+			movement.y += tlOffset.y;
+		}
+		else if (vertIndex==2) {
+			movement += brOffset;
+		}
+		else {
+			movement.x += tlOffset.x;
+			movement.y += brOffset.y;
+		}
+		bPaint = 1;
+	}
+	else {
+		bPaint = 0;
+	}
 
 	// send the vertices to the fragment shader
 	gl_Position = modelViewProjectionMatrix * position + movement;
