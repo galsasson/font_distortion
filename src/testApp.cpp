@@ -22,7 +22,7 @@ void testApp::setup(){
 	quote.push_back("is technically possible, no matter how murderous it is.");
 	quote.push_back("");
 	quote.push_back("Hannah Arendt");
-	quote.push_back("The Human Condition, Prologue");
+	quote.push_back("The Human Condition, 1958");
 
 	virgin.allocate(ofGetWindowWidth(), ofGetWindowHeight(), GL_RGBA);
 	virgin.begin();
@@ -32,15 +32,8 @@ void testApp::setup(){
 	second.begin();
 	ofClear(0, 0, 0, 255);
 	second.end();
-	colorTexture.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, OF_IMAGE_COLOR_ALPHA);
-	for (int y=0; y<colorTexture.getHeight(); y++)
-	{
-		for (int x=0; x<colorTexture.getWidth(); x++)
-		{
-			colorTexture.setColor(x, y, ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
-		}
-	}
-	colorTexture.update();
+	
+	renderColorTexture();
 	
 	quoteOnly.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, GL_RGBA);
 	quoteOnly.begin();
@@ -54,24 +47,21 @@ void testApp::setup(){
 	flowFieldShader.load("shaders/flowfield");
 
 	flowField.setup(ofGetWindowWidth(), ofGetWindowHeight());
-//	flowField.addRepulsion(ofVec2f(500, 500), 50, 5);
-//	flowField.addAttractor(ofVec2f(800, 500), 50, 5);
-//	flowField.randomize();
 	flowField.randomizeForces();
 
-	time = 0;
+//	time = 0;
 
 	background.allocate(ofGetWindowWidth(), ofGetWindowHeight());
 	backgroundShader.load("shaders/background");
 	plane.set(ofGetWindowWidth(), ofGetWindowHeight());
 	plane.setPosition(ofGetWindowWidth()/2, ofGetWindowHeight()/2, 0);
 	plane.setResolution(2, 2);
-	bShaderTime = 0;
 }
 
 void testApp::initGui()
 {
 	Params::distIntensity.setup("Distortion", 0, 0, 100);
+	Params::distTime.setup("Distortion Time", 0, 0, 1000);
 	Params::distSpeed.setup("Distortion Speed", 0, 0, 0.2);
 
 	Params::flowFieldDistortion.setup("FlowField Distortion", 0, 0, 1);
@@ -91,13 +81,27 @@ void testApp::initGui()
 	
 	Params::tempVar.setup("Temp Var", 0, 0, 1);
 	
-	Params::bShader.setup("Shader Background", false);
-	Params::bShaderRotSpeed.setup("bShader rotation speed", 0.01, 0, 1);
+	Params::bShader.setup("B.Shader", false);
+	Params::bShaderTime.setup("B.Shader Time", 0, 0, 1000);
+	Params::bShaderSpeed.setup("B.Shader Speed", 0, -1, 1);
+	Params::bShaderZoom.setup("B.Shader Zoom", 0.25, 0, 10);
+	Params::bShaderColSpeed.setup("B.Shader C.Speed", 0.005, 0, 1);
+	
+	Params::globalTime.setup("Global Time", 0, 0, 1000);
+	Params::globalSpeed.setup("Global Speed", 1, -1, 1);
 
 	gui.setup();
+	gui.add(&Params::globalTime);
+	gui.add(&Params::globalSpeed);
+
 	gui.add(&Params::bShader);
-	gui.add(&Params::bShaderRotSpeed);
+	gui.add(&Params::bShaderTime);
+	gui.add(&Params::bShaderSpeed);
+	gui.add(&Params::bShaderZoom);
+	gui.add(&Params::bShaderColSpeed);
+	
 	gui.add(&Params::distIntensity);
+	gui.add(&Params::distTime);
 	gui.add(&Params::distSpeed);
 
 	gui.add(&Params::flowFieldDistortion);
@@ -128,7 +132,7 @@ void testApp::drawWithDistShader()
 
 	distShader.begin();
 	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
-	distShader.setUniform2f("time2d", time, time+10000);
+	distShader.setUniform2f("time2d", Params::distTime, Params::distTime+10000);
 	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
 	distShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
 	distShader.setUniform1f("distIntensity", Params::distIntensity);
@@ -152,13 +156,14 @@ void testApp::drawWithFlowShader()
 	flowFieldShader.begin();
 	flowFieldShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
 #if 1
-	flowFieldShader.setUniformTexture("flowFieldTex", background.getTextureReference(), 2);
+	flowFieldShader.setUniformTexture("flowFieldTex", flowField.getTextureRef(), 2);
+//	flowFieldShader.setUniformTexture("flowFieldTex", background.getTextureReference(), 2);
 	flowFieldShader.setUniformTexture("colorTex", background.getTextureReference(), 3);
 #else
 	flowFieldShader.setUniformTexture("flowFieldTex", flowField.getTextureRef(), 2);
 	flowFieldShader.setUniformTexture("colorTex", colorTexture.getTextureReference(), 3);
 #endif
-	flowFieldShader.setUniform2f("time2d", time, time+10000);
+	flowFieldShader.setUniform2f("time2d", Params::distTime, Params::distTime+10000);
 	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
 	flowFieldShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
 	flowFieldShader.setUniform1f("distIntensity", Params::distIntensity);
@@ -182,29 +187,34 @@ void testApp::drawWithFlowShader()
 //--------------------------------------------------------------
 void testApp::update(){
 
-	time += Params::distSpeed;
-	bShaderTime += Params::bShaderRotSpeed;
+	Params::globalTime += Params::globalSpeed;
+	Params::bShaderTime += Params::bShaderSpeed*Params::globalSpeed;
+	Params::distTime += Params::distSpeed*Params::globalSpeed ;
+	
 	flowField.update();
 	
 	if (Params::bShader) {
 		renderBackground();
 	}
 	
-	drawWithFlowShader();
+//	drawWithFlowShader();
+	renderBoxedQuote();
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
+	int i=0;
+	i++;
 	if (Params::bShader)
 	{
 		background.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-		ofSetColor(255);
+		ofSetColor(Params::lineColor);
 		second.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 	}
 	else {
 		tvShader.begin();
-		tvShader.setUniform1f("time", (float)ofGetFrameNum()/60);
+		tvShader.setUniform1f("time", Params::globalTime);
 		tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
 		tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
 		tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
@@ -334,14 +344,59 @@ void testApp::renderBackground()
 {
 	background.begin();
 	backgroundShader.begin();
-	backgroundShader.setUniform1f("iGlobalTime", bShaderTime);
+	backgroundShader.setUniform1f("iGlobalTime", Params::bShaderTime);
 	backgroundShader.setUniform3f("iResolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2, 0);
-	backgroundShader.setUniform1f("iRotSpeed", Params::bShaderRotSpeed);
+	backgroundShader.setUniform1f("iRotSpeed", Params::bShaderSpeed);
 	backgroundShader.setUniformTexture("iChannel0", colorTexture.getTextureReference(), 1);
-	//	backgroundShader.setUniformTexture("iChannel0", flowField.getTextureRef(), 1);
+	backgroundShader.setUniform1f("zoom", Params::bShaderZoom);
+	backgroundShader.setUniform1f("colspeed", Params::bShaderColSpeed);
+//	backgroundShader.setUniformTexture("iChannel0", flowField.getTextureRef(), 1);
 	//	ofSetColor(100, 0, 0);
 	ofSetColor(Params::backgroundColor);
 	plane.draw();
 	backgroundShader.end();
 	background.end();
+}
+
+//#define GENERATE_NEW_NOISE_TEX
+
+void testApp::renderColorTexture()
+{
+#ifdef GENERATE_NEW_NOISE_TEX
+	colorTexture.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, OF_IMAGE_COLOR_ALPHA);
+	for (int y=0; y<colorTexture.getHeight(); y++)
+	{
+		for (int x=0; x<colorTexture.getWidth(); x++)
+		{
+			colorTexture.setColor(x, y, ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
+		}
+	}
+	colorTexture.update();
+	colorTexture.saveImage("noise.png");
+#else
+	colorTexture.loadImage("noise.png");
+#endif
+}
+
+void testApp::renderBoxedQuote()
+{
+	second.begin();
+	ofClear(0, 0, 0, 0);
+	if (!Params::bShader) {
+		ofSetColor(Params::backgroundColor);
+		ofFill();
+		ofRect(0, 0, second.getWidth(), second.getHeight());
+	}
+	
+	distShader.begin();
+	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
+	distShader.setUniform2f("time2d", Params::distTime, Params::distTime+10000);
+	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
+	distShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
+	distShader.setUniform1f("distIntensity", Params::distIntensity);
+	
+	drawQuote(second.getWidth(), second.getHeight());
+	
+	distShader.end();
+	second.end();
 }

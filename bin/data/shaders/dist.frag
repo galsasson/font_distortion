@@ -12,4 +12,6 @@ out vec4 outColor;
 void main(void) {
 	vec4 texel = texture(fontTex, vTexCoord);
 	outColor = vec4(globalColor.rgb, texel.a);
+//	outColor = vec4(vColor.rgb, texel.a);
+//	outColor = vColor;
 }

@@ -11,6 +11,8 @@ uniform vec3 iResolution;
 //uniform float iRotSpeed;
 uniform sampler2DRect tex0;
 uniform sampler2DRect iChannel0;
+uniform float zoom;
+uniform float colspeed;
 
 in vec2 vTexCoord;
 in vec4 vColor;
@@ -24,12 +26,12 @@ const int iterations=20;
 const float scale=1.3;
 const vec2 fold=vec2(.5);
 const vec2 translate=vec2(1.5);
-const float zoom=.25;
+//const float zoom=.25;
 const float brightness=7.;
 const float saturation=.65;
 const float texturescale=.15;
 const float rotspeed=0.01;
-const float colspeed=.005;
+//const float colspeed=.005;
 const float antialias=2.;
 
 
@@ -44,10 +46,10 @@ void main(void)
 //	outColor = vec4(vTexCoord.xy, 0., 1.);
 //	return;
 	
-	float myzoom = zoom;//iMouse.x/200.;
+	float myzoom = zoom;
 	
 	vec3 aacolor=vec3(0.);
-	vec2 pos=vTexCoord.xy-0.5;// / iResolution.xy-.5;
+	vec2 pos=vTexCoord.xy-0.5 + vec2(-0.34, -0.21);
 	float aspect=iResolution.y/iResolution.x;
 	pos.y*=aspect;
 	pos/=myzoom;

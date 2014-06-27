@@ -16,6 +16,7 @@ class Params
 {
 public:
 	static ofxFloatSlider distIntensity;
+	static ofxFloatSlider distTime;
 	static ofxFloatSlider distSpeed;
 
 	static ofxColorSlider lineColor;
@@ -37,7 +38,13 @@ public:
 	static ofxFloatSlider tempVar;
 	
 	static ofxToggle bShader;
-	static ofxFloatSlider bShaderRotSpeed;
+	static ofxFloatSlider bShaderTime;
+	static ofxFloatSlider bShaderSpeed;
+	static ofxFloatSlider bShaderColSpeed;
+	static ofxFloatSlider bShaderZoom;
+	
+	static ofxFloatSlider globalTime;
+	static ofxFloatSlider globalSpeed;
 };
 
 #endif /* defined(__font_distortion__Params__) */

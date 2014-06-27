@@ -59,6 +59,11 @@ private:
 	ofShader backgroundShader;
 	ofPlanePrimitive plane;
 	ofFbo background;
-	float bShaderTime;
+//	float bShaderTime;
 	void renderBackground();
+	
+	void renderColorTexture();
+	
+	void renderBoxedQuote();
+	
 };

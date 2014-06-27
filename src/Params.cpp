@@ -9,6 +9,7 @@
 #include "Params.h"
 
 ofxFloatSlider Params::distIntensity;
+ofxFloatSlider Params::distTime;
 ofxFloatSlider Params::distSpeed;
 
 ofxColorSlider Params::lineColor;
@@ -30,4 +31,10 @@ ofxToggle Params::mouseRepulsion;
 ofxFloatSlider Params::tempVar;
 
 ofxToggle Params::bShader;
-ofxFloatSlider Params::bShaderRotSpeed;
+ofxFloatSlider Params::bShaderTime;
+ofxFloatSlider Params::bShaderSpeed;
+ofxFloatSlider Params::bShaderZoom;
+ofxFloatSlider Params::bShaderColSpeed;
+
+ofxFloatSlider Params::globalTime;
+ofxFloatSlider Params::globalSpeed;

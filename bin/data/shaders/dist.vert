@@ -101,11 +101,14 @@ void main()
 	// here we move the texture coordinates
 	vTexCoord = vec2(texcoord.x, texcoord.y);
 	fixedCoord = vec2(position.x, position.y);
-	vColor = color;
+	vColor = vec4(gl_VertexID/1000., 0., 0., 1.);
+	
+	int letterIndex = gl_VertexID/4;
+	int vertIndex = gl_VertexID%4;
+	
+	float t = snoise(vec2(letterIndex*10., floor(time2d.x*15)));
+	vec4 movement = vec4(t*10., 0., 0., 0.);
 
 	// send the vertices to the fragment shader
-	gl_Position = modelViewProjectionMatrix * position + vec4(
-					snoise(fixedCoord + time2d)*distIntensity,
-					snoise(fixedCoord + time2d + vec2(1000, 1000))*distIntensity,
-					0.0, 0.0);
+	gl_Position = modelViewProjectionMatrix * position + movement;
 }

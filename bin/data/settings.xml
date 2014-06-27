@@ -1,23 +1,31 @@
 <group>
 	<Resolution>94.5</Resolution>
-	<Distortion>2.5</Distortion>
-	<Distortion_Speed>0.175</Distortion_Speed>
+	<Distortion>0</Distortion>
+	<Distortion_Speed>0.012</Distortion_Speed>
 	<LineWidth>7.1</LineWidth>
-	<Line_Color>255, 255, 255, 255</Line_Color>
-	<Background_Color>173, 175, 173, 255</Background_Color>
+	<Line_Color>63, 255, 255, 255</Line_Color>
+	<Background_Color>52, 171, 132, 255</Background_Color>
 <group/>
 <Distortion_I.Prog>100</Distortion_I.Prog>
 <Temp_Var>0</Temp_Var>
-<TV_Lines_Intensity>0</TV_Lines_Intensity>
+<TV_Lines_Intensity>0.08</TV_Lines_Intensity>
 <TV_Flicker_Intensity>0</TV_Flicker_Intensity>
-<Color_Separation>0</Color_Separation>
+<Color_Separation>4.25</Color_Separation>
 <z_Distortion>0</z_Distortion>
-<Flow_field_color>0</Flow_field_color>
+<Flow_field_color>1</Flow_field_color>
 <FlowField_Distortion>0</FlowField_Distortion>
 	<Flowfield_z_Distortion>0</Flowfield_z_Distortion>
 <Draw_fixed_quote>0</Draw_fixed_quote>
 	<Fixed_quote_alpha>255</Fixed_quote_alpha>
 <Mouse_Repulsion>0</Mouse_Repulsion>
 <Shader_Background>1</Shader_Background>
-	<bShader_rotation_speed>0.005</bShader_rotation_speed>
+	<bShader_rotation_speed>0.025</bShader_rotation_speed>
+<Global_Time>22435.7</Global_Time>
+	<Global_Speed>1</Global_Speed>
+	<Distortion_Time>4128.56</Distortion_Time>
+<B.Shader>0</B.Shader>
+	<B.Shader_Time>660</B.Shader_Time>
+	<B.Shader_Speed>0</B.Shader_Speed>
+<B.Shader_Zoom>0.25</B.Shader_Zoom>
+<B.Shader_C.Speed>0.005</B.Shader_C.Speed>
 </group>
