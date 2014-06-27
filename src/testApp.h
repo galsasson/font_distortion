@@ -76,4 +76,6 @@ private:
 	bool bToggleFont0 = true;
 	bool bToggleFont1 = true;
 	
+	void applyTvShader(const ofFbo& fbo);
+	
 };

@@ -17,12 +17,11 @@ void main(void) {
 //	outColor = vec4(vColor.rgb, texel.a);
 	if (bPaint == 1)
 	{
-		outColor = globalColor;
+//		outColor = globalColor;
 //		outColor = vec4(globalColor.rgb, texel.a);
-		
-//		vec3 rgb = (flowFieldColor*vColor.rgb) + ((1-flowFieldColor)*globalColor.rgb);
-//		outColor = vec4(rgb, texel.a);
-
+		vec3 rgb = (flowFieldColor*vColor.rgb) + ((1-flowFieldColor)*globalColor.rgb);
+		outColor = vec4(rgb, texel.a);
+//		outColor = vec4(rgb, 1.0);
 	}
 	else {
 		outColor = vec4(0., 0., 0., 0.);

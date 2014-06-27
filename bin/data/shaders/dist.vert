@@ -112,18 +112,31 @@ void main()
 	int phase = int(floor(time2d.x*15));
 
 	// change rect porportions
-	float noise1 = (snoise(vec2(letterIndex*10.+500., phase))-0.5)*distIntensity;
-	float noise2 = (snoise(vec2(letterIndex*10.+250., phase))-0.5)*distIntensity;
+
+	// symetrical version (cartoonish)
+	float noise1 = (snoise(vec2(letterIndex*100.+500., phase))-0.5)*distIntensity;
+	float noise2 = (snoise(vec2(letterIndex*100.+250., phase))-0.5)*distIntensity;
 	vec4 tlOffset = vec4(-noise1, -noise2, 0., 0.);
 	vec4 brOffset = vec4(noise1, noise2, 0., 0.);
 	
+	// free version
+//	float noise1 = (snoise(vec2(letterIndex*100.+500., phase))-0.5)*distIntensity;
+//	float noise2 = (snoise(vec2(letterIndex*100.+250., phase))-0.5)*distIntensity;
+//	float noise3 = (snoise(vec2(letterIndex*100.+750., phase))-0.5)*distIntensity;
+//	float noise4 = (snoise(vec2(letterIndex*100.+1000., phase))-0.5)*distIntensity;
+//	vec4 tlOffset = vec4(noise1, noise2, 0., 0.);
+//	vec4 brOffset = vec4(noise3, noise4, 0., 0.);
+	
 	vec4 movement = vec4(0);
-	if (true)//(phase)%3==0)
+	if (true)//(letterIndex+phase)%4==0)//(phase)%3==0)
 	{
 		float tx = snoise(vec2(letterIndex*10., phase));
 		float ty = snoise(vec2(letterIndex*10.+1000, phase));
 //		float scale = snoise(vec2(vertIndex*10.+2000, phase)) * 5;
-		movement = vec4(tx*distIntensity, ty*distIntensity, 0., 0.);
+		
+		// TODO: add displacement param
+		float distplacement = 1.;
+		movement = vec4(tx*distIntensity*distplacement, ty*distIntensity*distplacement, 0., 0.);
 		
 		if (vertIndex==0) {
 			movement += tlOffset;

@@ -16,10 +16,11 @@ void testApp::setup(){
 
 	initGui();
 
-	quote.push_back("If it should turn out to be true that knowledge (in the modern sense of know-how) and thought");
-	quote.push_back("have parted company for good, then we would indeed become the helpless slaves, not so much");
-	quote.push_back("of our machines as of our know-how, thoughtless creatures at the mercy of every gadget which");
-	quote.push_back("is technically possible, no matter how murderous it is.");
+	quote.push_back("If it should turn out to be true that knowledge (in the modern sense");
+	quote.push_back("of know-how) and thought have parted company for good, then we");
+	quote.push_back("would indeed become the helpless slaves, not so much of our machines");
+	quote.push_back("as of our know-how, thoughtless creatures at the mercy of every gadget");
+	quote.push_back("which is technically possible, no matter how murderous it is.");
 	quote.push_back("");
 	quote.push_back("Hannah Arendt");
 	quote.push_back("The Human Condition, 1958");
@@ -67,7 +68,7 @@ void testApp::initGui()
 {
 	Params::distIntensity.setup("Distortion", 0, 0, 100);
 	Params::distTime.setup("Distortion Time", 0, 0, 1000);
-	Params::distSpeed.setup("Distortion Speed", 0, 0, 0.2);
+	Params::distSpeed.setup("Distortion Speed", 0, 0, 20);
 
 	Params::flowFieldDistortion.setup("FlowField Distortion", 0, 0, 1);
 	Params::zDistScale.setup("Flowfield z Distortion", 0, 0, 5);
@@ -216,13 +217,6 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw()
 {
-//	tvShader.begin();
-//	tvShader.setUniform1f("time", Params::globalTime);
-//	tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
-//	tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
-//	tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
-//	tvShader.setUniform1f("flickerIntensity", Params::tvFlickerIntensity);
-	
 	ofSetColor(255);
 	backgroundFbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 	if (bToggleFont0) {
@@ -233,8 +227,6 @@ void testApp::draw()
 		font1Fbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 	}
 	
-//	tvShader.end();
-
 	if (bToggleGui) {
 		ofSetColor(255);
 		backgroundFbo.draw(0, 0, 200, 130);
@@ -333,14 +325,14 @@ void testApp::drawQuote(float resx, float resy)
 	float quoteHeight = 0;
 	for (int i=0; i<quote.size(); i++)
 	{
-		quoteHeight += ResourceManager::getInstance().font.stringHeight(quote[i])+50;
+		quoteHeight += ResourceManager::getInstance().font.stringHeight(quote[i])+80;
 	}
 
 //	float y = (resolution.y - quoteHeight)/2 + 300;
 	for (int i=0; i<quote.size(); i++)
 	{
-		float x = 150;
-		float y = 400+quoteHeight / quote.size() * i;
+		float x = 250;
+		float y = 600+quoteHeight / quote.size() * i;
 		// (resolution.x - ResourceManager::getInstance().font.stringWidth(quote[i]))/2;
 		ResourceManager::getInstance().font.drawString(quote[i], x, y);
 //		ResourceManager::getInstance().font.getStringMesh(quote[i], x, y).draw();
@@ -414,4 +406,17 @@ void testApp::renderNormalQuote()
 	drawQuote(font0Fbo.getWidth(), font0Fbo.getHeight());
 	
 	normalFontShader.end();
+}
+
+void testApp::applyTvShader(const ofFbo &fbo)
+{
+	tvShader.begin();
+	tvShader.setUniform1f("time", Params::globalTime);
+	tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
+	tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
+	tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
+	tvShader.setUniform1f("flickerIntensity", Params::tvFlickerIntensity);
+
+	tvShader.end();	
+
 }
