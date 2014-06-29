@@ -8,9 +8,21 @@
 
 #include "Params.h"
 
+ofxFloatSlider Params::boxDistIntensity;
+ofxFloatSlider Params::boxDistTime;
+ofxFloatSlider Params::boxDistSpeed;
+
 ofxFloatSlider Params::distIntensity;
+ofxFloatSlider Params::dispAmount;
 ofxFloatSlider Params::distTime;
 ofxFloatSlider Params::distSpeed;
+
+ofxFloatSlider Params::particlesDistAmount;
+ofxFloatSlider Params::particlesDistSpeed;
+ofxFloatSlider Params::particlesDistTime;
+
+ofxFloatSlider Params::linesDistFreq;
+ofxFloatSlider Params::linesDistAmount;
 
 ofxColorSlider Params::lineColor;
 ofxColorSlider Params::backgroundColor;

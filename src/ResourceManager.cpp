@@ -10,5 +10,9 @@
 
 ResourceManager::ResourceManager()
 {
-	font.loadFont("futura.ttf", 60, true, true, true);
+//	font.loadFont("futura.ttf", 60, true, true, true);
+//	ofTrueTypeFont::setGlobalDpi(320);
+	font.loadFont("fonts/Helvetica.ttf", 70, true, true, true);
+	fontBold.loadFont("fonts/HelveticaBold.ttf", 70, true, true, true);
+	fontOblique.loadFont("fonts/HelveticaOblique.ttf", 70, true, true, true);
 }

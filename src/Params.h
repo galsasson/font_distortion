@@ -15,10 +15,21 @@
 class Params
 {
 public:
+	static ofxFloatSlider boxDistIntensity;
+	static ofxFloatSlider boxDistTime;
+	static ofxFloatSlider boxDistSpeed;
 	static ofxFloatSlider distIntensity;
+	static ofxFloatSlider dispAmount;
 	static ofxFloatSlider distTime;
 	static ofxFloatSlider distSpeed;
+	
+	static ofxFloatSlider particlesDistAmount;
+	static ofxFloatSlider particlesDistSpeed;
+	static ofxFloatSlider particlesDistTime;
 
+	static ofxFloatSlider linesDistFreq;
+	static ofxFloatSlider linesDistAmount;
+	
 	static ofxColorSlider lineColor;
 	static ofxColorSlider backgroundColor;
 

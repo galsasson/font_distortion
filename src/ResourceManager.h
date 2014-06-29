@@ -23,6 +23,8 @@ public:
 	}
 
 	ofTrueTypeFont font;
+	ofTrueTypeFont fontBold;
+	ofTrueTypeFont fontOblique;
 
 private:
 	ResourceManager();

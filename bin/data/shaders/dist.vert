@@ -22,8 +22,16 @@ out vec4 vColor;
 out float bPaint;
 
 // this is coming from our C++ code
+uniform vec2 inResolution;
 uniform vec2 time2d;
+uniform float boxDistTime;
+uniform float boxDistIntensity;
 uniform float distIntensity;
+uniform float dispAmount;
+uniform vec2 distPoint;
+uniform float partDistAmount;
+uniform float partDistTime;
+uniform float renderID;
 
 /**************************************************************/
 //
@@ -98,6 +106,10 @@ float snoise(vec2 v)
 }
 /**************************************************************/
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 
 void main()
 {
@@ -109,34 +121,49 @@ void main()
 	int letterIndex = gl_VertexID/4;
 	int vertIndex = gl_VertexID%4;
 
-	int phase = int(floor(time2d.x*15));
+//	int phase = int(floor(boxDistTime));
 
 	// change rect porportions
 
 	// symetrical version (cartoonish)
-	float noise1 = (snoise(vec2(letterIndex*100.+500., phase))-0.5)*distIntensity;
-	float noise2 = (snoise(vec2(letterIndex*100.+250., phase))-0.5)*distIntensity;
+	float noise1 = (snoise(vec2(renderID*100 + letterIndex*100.+500., boxDistTime)))*boxDistIntensity;
+	float noise2 = (snoise(vec2(renderID*100 + letterIndex*100.+250., boxDistTime)))*boxDistIntensity;
 	vec4 tlOffset = vec4(-noise1, -noise2, 0., 0.);
 	vec4 brOffset = vec4(noise1, noise2, 0., 0.);
 	
 	// free version
-//	float noise1 = (snoise(vec2(letterIndex*100.+500., phase))-0.5)*distIntensity;
-//	float noise2 = (snoise(vec2(letterIndex*100.+250., phase))-0.5)*distIntensity;
-//	float noise3 = (snoise(vec2(letterIndex*100.+750., phase))-0.5)*distIntensity;
-//	float noise4 = (snoise(vec2(letterIndex*100.+1000., phase))-0.5)*distIntensity;
+//	float noise1 = (snoise(vec2(letterIndex*100.+500., phase))-0.5)*boxDistIntensity;
+//	float noise2 = (snoise(vec2(letterIndex*100.+250., phase))-0.5)*boxDistIntensity;
+//	float noise3 = (snoise(vec2(letterIndex*100.+750., phase))-0.5)*boxDistIntensity;
+//	float noise4 = (snoise(vec2(letterIndex*100.+1000., phase))-0.5)*boxDistIntensity;
 //	vec4 tlOffset = vec4(noise1, noise2, 0., 0.);
 //	vec4 brOffset = vec4(noise3, noise4, 0., 0.);
 	
+	// add noise to each vertex
+	vec4 vertNoise = vec4(0., 0., 0., 0.);
+	if (length(distPoint - position.xy) < 200) {
+		vertNoise = vec4((snoise(vec2(partDistTime, 0.) + position.xy))*partDistAmount,
+						  (snoise(vec2(partDistTime, 10.) + position.xy))*partDistAmount,
+							0.0, 0.0);
+	}
+	
+	// all distortion
+	if (vertIndex>1) {
+		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*distIntensity,
+						 (snoise(vec2(0, time2d.y) + position.xy))*distIntensity,
+						 0.0, 0.0);
+		
+	}
+	
+	// per letter
 	vec4 movement = vec4(0);
 	if (true)//(letterIndex+phase)%4==0)//(phase)%3==0)
 	{
-		float tx = snoise(vec2(letterIndex*10., phase));
-		float ty = snoise(vec2(letterIndex*10.+1000, phase));
-//		float scale = snoise(vec2(vertIndex*10.+2000, phase)) * 5;
-		
-		// TODO: add displacement param
-		float distplacement = 1.;
-		movement = vec4(tx*distIntensity*distplacement, ty*distIntensity*distplacement, 0., 0.);
+		float tx = snoise(vec2(letterIndex*10., time2d.x));
+		float ty = snoise(vec2(letterIndex*10.+1000, time2d.x));
+
+		// add displacement
+		movement = vec4(tx*dispAmount, ty*dispAmount, 0., 0.);
 		
 		if (vertIndex==0) {
 			movement += tlOffset;
@@ -159,5 +186,5 @@ void main()
 	}
 
 	// send the vertices to the fragment shader
-	gl_Position = modelViewProjectionMatrix * position + movement;
+	gl_Position = modelViewProjectionMatrix * position + movement + vertNoise;
 }

@@ -29,7 +29,12 @@ class testApp : public ofBaseApp{
 private:
 
 	void initGui();
-	void drawQuote(float resx, float resy);
+	void drawQuote(const ofVec2f& p, ofShader& shader);
+//	void drawString(const std::string& str, const ofVec2f& p);
+//	void drawStringBold(const std::string& str, const ofVec2f& p);
+//	void drawStringOblique(const std::string& str, const ofVec2f& p);
+	
+	
 	void drawWithDistShader();
 	void drawWithFlowShader();
 
@@ -49,9 +54,6 @@ private:
 	ofFbo font1Fbo;
 	
 	ofShader tvShader;
-//	ofFbo virgin;
-//	ofFbo second;
-//	ofFbo quoteOnly;
 	ofImage colorTexture;
 	ofShader distShader;
 
@@ -73,9 +75,11 @@ private:
 	ofShader normalFontShader;
 	void renderNormalQuote();
 	
-	bool bToggleFont0 = true;
+	bool bToggleFont0 = false;
 	bool bToggleFont1 = true;
 	
 	void applyTvShader(const ofFbo& fbo);
+	
+	float prevSpeed;
 	
 };
