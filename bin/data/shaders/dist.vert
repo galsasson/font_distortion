@@ -15,11 +15,13 @@ in vec2 texcoord;
 
 // this is something we're creating for this shader
 uniform sampler2DRect colorTex;
+uniform sampler2DRect textAreaTex;
 
 out vec2 vTexCoord;
 out vec2 fixedCoord;
 out vec4 vColor;
 out float bPaint;
+out float focalAmount;
 
 // this is coming from our C++ code
 uniform vec2 inResolution;
@@ -120,7 +122,11 @@ void main()
 	
 	int letterIndex = gl_VertexID/4;
 	int vertIndex = gl_VertexID%4;
+	
+	vec4 letterParams = texture(textAreaTex, vec2(letterIndex*2, renderID*2));
 
+	// test:
+	vColor = letterParams;
 //	int phase = int(floor(boxDistTime));
 
 	// change rect porportions
@@ -142,13 +148,15 @@ void main()
 	// add noise to each vertex
 	vec4 vertNoise = vec4(0., 0., 0., 0.);
 	if (length(distPoint - position.xy) < 200) {
-		vertNoise = vec4((snoise(vec2(partDistTime, 0.) + position.xy))*partDistAmount,
-						  (snoise(vec2(partDistTime, 10.) + position.xy))*partDistAmount,
+		vertNoise = vec4((snoise(vec2(partDistTime*10, 0.) + position.xy))*partDistAmount,
+						  (snoise(vec2(partDistTime*10, 10.) + position.xy))*partDistAmount,
 							0.0, 0.0);
 	}
 	
+	focalAmount = length((distPoint - position.xy)/inResolution);
+	
 	// all distortion
-	if (vertIndex>1) {
+	if (vertIndex>1 && letterParams.r > 0.2) {
 		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*distIntensity,
 						 (snoise(vec2(0, time2d.y) + position.xy))*distIntensity,
 						 0.0, 0.0);

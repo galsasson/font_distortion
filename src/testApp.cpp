@@ -13,7 +13,8 @@ void testApp::setup(){
      Martin Heidegger
      */
 	ofEnableAlphaBlending();
-
+//	ofDisableArbTex();
+	
 	initGui();
 
 	quote.push_back("If it should turn out to be true that knowledge (in the modern sense");
@@ -64,6 +65,8 @@ void testApp::setup(){
 	plane.setResolution(2, 2);
 	
 	prevSpeed = 0;
+	
+	textArea.setup(quote);
 }
 
 void testApp::initGui()
@@ -249,6 +252,7 @@ void testApp::draw()
 	
 	if (bToggleGui) {
 		ofSetColor(255);
+		textArea.getTextureRef().draw(0, 0);
 //		backgroundFbo.draw(0, 0, 200, 130);
 //		font0Fbo.draw(200, 0, 200, 130);
 //		font1Fbo.draw(400, 0, 200, 130);
@@ -305,6 +309,9 @@ void testApp::keyPressed(int key){
 			prevSpeed = Params::globalSpeed;
 			Params::globalSpeed = 0;
 		}
+	}
+	else {
+		textArea.keyPressed(key);
 	}
 }
 
@@ -379,7 +386,7 @@ void testApp::drawQuote(const ofVec2f &p, ofShader& shader)
 	
 	for (int i=0; i<quote.size(); i++)
 	{
-		shader.setUniform1f("renderID", i*1000);
+		shader.setUniform1f("renderID", i);
 
 		float x = p.x;
 		float y = p.y + lineJump*i;
@@ -442,9 +449,13 @@ void testApp::renderBoxedQuote()
 {
 	ofClear(0, 0, 0, 0);
 	
+	
 	distShader.begin();
-	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NONE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NONE);
+//	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
 	distShader.setUniformTexture("colorTex", fractalShaderFbo.getTextureReference(), 2);
+	distShader.setUniformTexture("textAreaTex", textArea.getTextureRef(), 3);
 	distShader.setUniform1f("flowFieldColor", Params::flowFieldColor);
 	distShader.setUniform2f("inResolution", 3840, 2160);
 	distShader.setUniform2f("time2d", Params::distTime, Params::distTime+10000);
@@ -455,7 +466,7 @@ void testApp::renderBoxedQuote()
 	
 	distShader.setUniform1f("distIntensity", Params::distIntensity);
 	distShader.setUniform1f("dispAmount", Params::dispAmount);
-	distShader.setUniform2f("distPoint", 1000, 1000);
+	distShader.setUniform2f("distPoint", ofGetMouseX()*2, ofGetMouseY()*2);
 	
 	distShader.setUniform1f("partDistAmount", Params::particlesDistAmount);
 	distShader.setUniform1f("partDistTime", Params::particlesDistTime);

@@ -8,6 +8,7 @@
 
 #include "FlowField.h"
 #include "WildChar.h"
+#include "TextArea.h"
 
 class testApp : public ofBaseApp{
 
@@ -82,4 +83,5 @@ private:
 	
 	float prevSpeed;
 	
+	TextArea textArea;
 };
