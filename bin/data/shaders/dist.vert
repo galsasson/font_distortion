@@ -20,8 +20,10 @@ uniform sampler2DRect textAreaTex;
 out vec2 vTexCoord;
 out vec2 fixedCoord;
 out vec4 vColor;
-out float bPaint;
 out float focalAmount;
+out float letterLineDistAmount;
+out float isCursor;
+out float greenDist;
 
 // this is coming from our C++ code
 uniform vec2 inResolution;
@@ -125,15 +127,11 @@ void main()
 	
 	vec4 letterParams = texture(textAreaTex, vec2(letterIndex*2, renderID*2));
 
-	// test:
-	vColor = letterParams;
-//	int phase = int(floor(boxDistTime));
-
 	// change rect porportions
 
 	// symetrical version (cartoonish)
-	float noise1 = (snoise(vec2(renderID*100 + letterIndex*100.+500., boxDistTime)))*boxDistIntensity;
-	float noise2 = (snoise(vec2(renderID*100 + letterIndex*100.+250., boxDistTime)))*boxDistIntensity;
+	float noise1 = (snoise(vec2(renderID*10 + letterIndex*100, boxDistTime)))*boxDistIntensity;
+	float noise2 = (snoise(vec2(renderID*20 + letterIndex*100, boxDistTime)))*boxDistIntensity;
 	vec4 tlOffset = vec4(-noise1, -noise2, 0., 0.);
 	vec4 brOffset = vec4(noise1, noise2, 0., 0.);
 	
@@ -156,41 +154,79 @@ void main()
 	focalAmount = length((distPoint - position.xy)/inResolution);
 	
 	// all distortion
-	if (vertIndex>1 && letterParams.r > 0.2) {
+	if (vertIndex>1) {
 		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*distIntensity,
 						 (snoise(vec2(0, time2d.y) + position.xy))*distIntensity,
 						 0.0, 0.0);
 		
 	}
 	
-	// per letter
-	vec4 movement = vec4(0);
-	if (true)//(letterIndex+phase)%4==0)//(phase)%3==0)
-	{
-		float tx = snoise(vec2(letterIndex*10., time2d.x));
-		float ty = snoise(vec2(letterIndex*10.+1000, time2d.x));
-
-		// add displacement
-		movement = vec4(tx*dispAmount, ty*dispAmount, 0., 0.);
-		
-		if (vertIndex==0) {
-			movement += tlOffset;
-		}
-		else if (vertIndex==1) {
-			movement.x += brOffset.x;
-			movement.y += tlOffset.y;
-		}
-		else if (vertIndex==2) {
-			movement += brOffset;
-		}
-		else {
-			movement.x += tlOffset.x;
-			movement.y += brOffset.y;
-		}
-		bPaint = 1;
+	// text editor distortions
+	// upper distortion
+	if (letterParams.r > 0.2) {
+		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*20,
+						  (snoise(vec2(0, time2d.y) + position.xy))*20,
+						  0.0, 0.0);
+	}
+	
+	// cursor distortion
+	if (letterParams.a > 0.0) {
+		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*8,
+						  (snoise(vec2(0, time2d.y) + position.xy))*8,
+						  0.0, 0.0);
+	}
+	
+	
+	// line distortion
+	if (letterParams.g > 0.2) {
+		letterLineDistAmount = 1;
 	}
 	else {
-		bPaint = 0;
+		letterLineDistAmount = 0;
+	}
+	// pass on the cursor
+	if (letterParams.a > 0.0) {
+		isCursor = 1;
+	}
+	else {
+		isCursor = 0;
+	}
+	// green distortion
+	if (letterParams.b > 0.0) {
+		greenDist = 1;
+		if (letterIndex % 4 == vertIndex) {
+			// symetrical version (cartoonish)
+			float gnx = (snoise(vec2(renderID*10 + letterIndex*100, boxDistTime)))*100;
+			float gny = (snoise(vec2(renderID*20 + letterIndex*100, boxDistTime)))*100;
+			vertNoise += vec4(gnx, gny, 0.0, 0.0);
+		}
+	}
+	else {
+		greenDist = 0;
+	}
+	
+	// per letter
+	vec4 movement = vec4(0);
+
+	float tx = snoise(vec2(letterIndex*10., time2d.x));
+	float ty = snoise(vec2(letterIndex*10.+1000, time2d.x));
+
+	// add displacement
+	movement = vec4(tx*dispAmount, ty*dispAmount, 0., 0.);
+	
+	if (vertIndex==0) {
+		movement += tlOffset;
+	}
+	else if (vertIndex==1) {
+		movement.x += brOffset.x;
+		movement.y += tlOffset.y;
+	}
+	else if (vertIndex==2) {
+		movement += brOffset;
+	}
+	else {
+		movement.x += tlOffset.x;
+		movement.y += brOffset.y;
 	}
 
 	// send the vertices to the fragment shader

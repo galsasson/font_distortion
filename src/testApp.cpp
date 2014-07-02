@@ -13,6 +13,7 @@ void testApp::setup(){
      Martin Heidegger
      */
 	ofEnableAlphaBlending();
+	ofSetFrameRate(30);
 //	ofDisableArbTex();
 	
 	initGui();
@@ -67,6 +68,9 @@ void testApp::setup(){
 	prevSpeed = 0;
 	
 	textArea.setup(quote);
+	cursorTime = 0;
+	
+	animation.setup();
 }
 
 void testApp::initGui()
@@ -110,7 +114,7 @@ void testApp::initGui()
 	Params::globalTime.setup(			"Global Time", 0, 0, 1000);
 	Params::globalSpeed.setup(			"Global Speed", 1, -1, 1);
 	
-	Params::linesDistFreq.setup(		"Lines Dist. Freq.", 0, 0, 1000);
+	Params::linesDistFreq.setup(		"Lines Dist. Freq.", 0, 0, 2000);
 	Params::linesDistAmount.setup(		"Lines Dist. Amt.", 0, 0, 100);
 
 	gui.setup();
@@ -200,13 +204,16 @@ void testApp::drawWithFlowShader()
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
+void testApp::update()
+{
+//	animation.update(1.0f / 60);
 
 	Params::globalTime += Params::globalSpeed;
 	Params::bShaderTime += Params::bShaderSpeed*Params::globalSpeed;
 	Params::distTime += Params::distSpeed*Params::globalSpeed;
 	Params::boxDistTime += Params::boxDistSpeed*Params::globalSpeed;
 	Params::particlesDistTime += Params::particlesDistSpeed*Params::globalSpeed;
+	cursorTime += 1;
 	
 	flowField.update();
 
@@ -400,8 +407,8 @@ void testApp::drawQuote(const ofVec2f &p, ofShader& shader)
 			ResourceManager::getInstance().fontOblique.drawString(quote[i], x, y);
 		}
 		else {
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
-			ResourceManager::getInstance().font.drawString(quote[i], x, y);
+			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontBold.getFontTexture(), 1);
+			ResourceManager::getInstance().fontBold.drawString(quote[i], x, y);
 		}
 	}
 }
@@ -473,6 +480,9 @@ void testApp::renderBoxedQuote()
 	
 	distShader.setUniform1f("linesDistFreq", Params::linesDistFreq);
 	distShader.setUniform1f("linesDistAmount", Params::linesDistAmount);
+	
+	distShader.setUniform2f("cursorTime", cursorTime, cursorTime);
+	distShader.setUniform1f("uncertainty", 1);
 	
 	ofSetColor(Params::lineColor);
 	drawQuote(ofVec2f(250, 600), distShader);

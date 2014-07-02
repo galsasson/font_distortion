@@ -41,12 +41,12 @@ void TextArea::setup(vector<std::string> quote)
 			}
 			
 			CharParams *cp = new CharParams();
-			if (line==cursorY && chr==cursorX) {
-				cp->distortionAmount = 1;
-			}
-			else {
-				cp->distortionAmount = 0;
-			}
+//			if (line==cursorY && chr==cursorX) {
+//				cp->distortionAmount = 1;
+//			}
+//			else {
+//				cp->distortionAmount = 0;
+//			}
 			lineVector.push_back(cp);
 		}
 		
@@ -57,7 +57,7 @@ void TextArea::setup(vector<std::string> quote)
 	stateImage.setCompression(OF_COMPRESS_NONE);
 	for (int i=0; i<stateImage.getHeight(); i++) {
 		for (int j=0; j<stateImage.getWidth(); j++) {
-			stateImage.setColor(j, i, ofFloatColor(0, 0, 0, 1));
+			stateImage.setColor(j, i, ofFloatColor(0, 0, 0, 0));
 		}
 	}
 	stateImage.update();
@@ -66,8 +66,6 @@ void TextArea::setup(vector<std::string> quote)
 
 void TextArea::keyPressed(int key)
 {
-	charParams[cursorY][cursorX]->distortionAmount = 0;
-	
 	if (key == OF_KEY_UP) {
 		if (cursorY > 0) {
 			cursorY--;
@@ -101,8 +99,44 @@ void TextArea::keyPressed(int key)
 			cursorX++;
 		}
 	}
+	else if (key == 'z') {
+		// 'z' clear all distortions
+		CharParams *cp = charParams[cursorY][cursorX];
+		cp->distortionAmount = 0;
+		cp->lineShiftAmount = 0;
+		cp->greenDistAmount = 0;
+	}
+	else if (key == 'x') {
+		// 'x' toggles distortion
+		CharParams *cp = charParams[cursorY][cursorX];
+		if (cp->distortionAmount > 0) {
+			cp->distortionAmount = 0;
+		}
+		else {
+			cp->distortionAmount = 1;
+		}
+	}
+	else if (key == 'c') {
+		// 'c' toggles line shift distortion
+		CharParams *cp = charParams[cursorY][cursorX];
+		if (cp->lineShiftAmount > 0) {
+			cp->lineShiftAmount = 0;
+		}
+		else {
+			cp->lineShiftAmount = 1;
+		}
+	}
+	else if (key == 'v') {
+		// 'c' toggles line shift distortion
+		CharParams *cp = charParams[cursorY][cursorX];
+		if (cp->greenDistAmount > 0) {
+			cp->greenDistAmount = 0;
+		}
+		else {
+			cp->greenDistAmount = 1;
+		}
+	}
 	
-	charParams[cursorY][cursorX]->distortionAmount = 1;
 	updateTexture();
 }
 
@@ -114,9 +148,18 @@ void TextArea::updateTexture()
 		for (int chr=0; chr<charParams[line].size(); chr++)
 		{
 			CharParams *cp = charParams[line][chr];
-			stateImage.setColor(chr*2, line*2, ofFloatColor(cp->distortionAmount, 0, 0, 1));
+			float isCursor = 0;
+			if (line == cursorY && chr == cursorX) {
+				isCursor = 1;
+			}
+			stateImage.setColor(chr*2, line*2, ofFloatColor(cp->distortionAmount, cp->lineShiftAmount, cp->greenDistAmount, isCursor));
 		}
 	}
+	
+	// add cursor color
+//	CharParams* cp = charParams[cursorY][cursorX];
+//	stateImage.setColor(cursorX*2, cursorY*2, cursorColo);
+	
 	stateImage.update();
 }
 
@@ -125,4 +168,6 @@ CharParams::CharParams()
 {
 	up = down = left = right = NULL;
 	distortionAmount = 0;
+	lineShiftAmount = 0;
+	greenDistAmount = 0;
 }

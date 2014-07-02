@@ -10,6 +10,8 @@
 #include "WildChar.h"
 #include "TextArea.h"
 
+#include "Animation.h"
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -84,4 +86,7 @@ private:
 	float prevSpeed;
 	
 	TextArea textArea;
+	float cursorTime;
+	
+	Animation animation;
 };

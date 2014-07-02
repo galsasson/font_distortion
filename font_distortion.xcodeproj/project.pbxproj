@@ -17,6 +17,11 @@
 		2A110A631935951D00F23DCC /* WildChar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A110A611935951D00F23DCC /* WildChar.cpp */; };
 		2A110A66193596FE00F23DCC /* ResourceManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A110A64193596FE00F23DCC /* ResourceManager.cpp */; };
 		2A110A6919362A8300F23DCC /* Params.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A110A6719362A8300F23DCC /* Params.cpp */; };
+		2A35ED571963B75F00101522 /* ofxAnimatable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED4D1963B75F00101522 /* ofxAnimatable.cpp */; };
+		2A35ED581963B75F00101522 /* ofxAnimatableFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED4F1963B75F00101522 /* ofxAnimatableFloat.cpp */; };
+		2A35ED591963B75F00101522 /* ofxAnimatableOfColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED511963B75F00101522 /* ofxAnimatableOfColor.cpp */; };
+		2A35ED5A1963B75F00101522 /* ofxAnimatableOfPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED531963B75F00101522 /* ofxAnimatableOfPoint.cpp */; };
+		2A35ED5D1963B7B400101522 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED5B1963B7B400101522 /* Animation.cpp */; };
 		2A54BCF5195FF017009401E5 /* TextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A54BCF3195FF017009401E5 /* TextArea.cpp */; };
 		2AB31B55195103F800809524 /* FlowField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AB31B53195103F800809524 /* FlowField.cpp */; };
 		4294163B15857489B2176769 /* svgtiny_gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 582921BA98D224ED41833868 /* svgtiny_gradient.cpp */; };
@@ -123,6 +128,16 @@
 		2A110A65193596FE00F23DCC /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManager.h; sourceTree = "<group>"; };
 		2A110A6719362A8300F23DCC /* Params.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Params.cpp; sourceTree = "<group>"; };
 		2A110A6819362A8300F23DCC /* Params.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Params.h; sourceTree = "<group>"; };
+		2A35ED4D1963B75F00101522 /* ofxAnimatable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatable.cpp; sourceTree = "<group>"; };
+		2A35ED4E1963B75F00101522 /* ofxAnimatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatable.h; sourceTree = "<group>"; };
+		2A35ED4F1963B75F00101522 /* ofxAnimatableFloat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableFloat.cpp; sourceTree = "<group>"; };
+		2A35ED501963B75F00101522 /* ofxAnimatableFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableFloat.h; sourceTree = "<group>"; };
+		2A35ED511963B75F00101522 /* ofxAnimatableOfColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableOfColor.cpp; sourceTree = "<group>"; };
+		2A35ED521963B75F00101522 /* ofxAnimatableOfColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableOfColor.h; sourceTree = "<group>"; };
+		2A35ED531963B75F00101522 /* ofxAnimatableOfPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableOfPoint.cpp; sourceTree = "<group>"; };
+		2A35ED541963B75F00101522 /* ofxAnimatableOfPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableOfPoint.h; sourceTree = "<group>"; };
+		2A35ED5B1963B7B400101522 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
+		2A35ED5C1963B7B400101522 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		2A54BCF3195FF017009401E5 /* TextArea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextArea.cpp; sourceTree = "<group>"; };
 		2A54BCF4195FF017009401E5 /* TextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextArea.h; sourceTree = "<group>"; };
 		2A5B1FAD3F30C8065C396ACB /* NetworkingUtilsWin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtilsWin.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/win32/NetworkingUtilsWin.cpp; sourceTree = SOURCE_ROOT; };
@@ -260,6 +275,30 @@
 				6E54289412D2D94F45A05113 /* libs */,
 			);
 			name = ofxXmlSettings;
+			sourceTree = "<group>";
+		};
+		2A35ED441963B75F00101522 /* ofxAnimatable */ = {
+			isa = PBXGroup;
+			children = (
+				2A35ED4C1963B75F00101522 /* src */,
+			);
+			name = ofxAnimatable;
+			path = ../../../addons/ofxAnimatable;
+			sourceTree = "<group>";
+		};
+		2A35ED4C1963B75F00101522 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				2A35ED4D1963B75F00101522 /* ofxAnimatable.cpp */,
+				2A35ED4E1963B75F00101522 /* ofxAnimatable.h */,
+				2A35ED4F1963B75F00101522 /* ofxAnimatableFloat.cpp */,
+				2A35ED501963B75F00101522 /* ofxAnimatableFloat.h */,
+				2A35ED511963B75F00101522 /* ofxAnimatableOfColor.cpp */,
+				2A35ED521963B75F00101522 /* ofxAnimatableOfColor.h */,
+				2A35ED531963B75F00101522 /* ofxAnimatableOfPoint.cpp */,
+				2A35ED541963B75F00101522 /* ofxAnimatableOfPoint.h */,
+			);
+			path = src;
 			sourceTree = "<group>";
 		};
 		2C37BD8EC0DD508F31BF34D9 /* ofxControlease */ = {
@@ -431,6 +470,7 @@
 		BB4B014C10F69532006C3DED /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				2A35ED441963B75F00101522 /* ofxAnimatable */,
 				480A780D8D0308AE4A368801 /* ofxGui */,
 				E6053AB7FEC63D5F83825B88 /* ofxOsc */,
 				F5F1F1EF8441E64FD46F07C8 /* ofxSvg */,
@@ -563,6 +603,8 @@
 				2AB31B54195103F800809524 /* FlowField.h */,
 				2A54BCF3195FF017009401E5 /* TextArea.cpp */,
 				2A54BCF4195FF017009401E5 /* TextArea.h */,
+				2A35ED5B1963B7B400101522 /* Animation.cpp */,
+				2A35ED5C1963B7B400101522 /* Animation.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -697,18 +739,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				2A35ED581963B75F00101522 /* ofxAnimatableFloat.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				856AA354D08AB4B323081444 /* ofxBaseGui.cpp in Sources */,
 				5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */,
 				B266578FC55D23BFEBC042E7 /* ofxGuiGroup.cpp in Sources */,
 				483908258D00B98B4BE69F07 /* ofxLabel.cpp in Sources */,
 				F285EB3169F1566CA3D93C20 /* ofxPanel.cpp in Sources */,
+				2A35ED591963B75F00101522 /* ofxAnimatableOfColor.cpp in Sources */,
 				837220E80EB56CD44AD27F2A /* ofxSlider.cpp in Sources */,
 				B56FE57CC35806596D38118C /* ofxSliderGroup.cpp in Sources */,
 				1CD33E884D9E3358252E82A1 /* ofxToggle.cpp in Sources */,
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				2A54BCF5195FF017009401E5 /* TextArea.cpp in Sources */,
+				2A35ED5D1963B7B400101522 /* Animation.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
+				2A35ED571963B75F00101522 /* ofxAnimatable.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,
 				640279EE111671BD026CB013 /* ofxOscReceiver.cpp in Sources */,
 				8F5205AEF8861EF234F0651A /* ofxOscSender.cpp in Sources */,
@@ -724,6 +770,7 @@
 				2AB31B55195103F800809524 /* FlowField.cpp in Sources */,
 				0546D1A38E13BD319CC9755B /* OscReceivedElements.cpp in Sources */,
 				879A251454401BC0B6E4F238 /* OscTypes.cpp in Sources */,
+				2A35ED5A1963B75F00101522 /* ofxAnimatableOfPoint.cpp in Sources */,
 				B88A57B4B0BA6191EF3571E9 /* ofxSvg.cpp in Sources */,
 				2A110A631935951D00F23DCC /* WildChar.cpp in Sources */,
 				6A565A9714A6A12EB9098F52 /* src_colors.cpp in Sources */,

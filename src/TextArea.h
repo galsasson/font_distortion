@@ -40,6 +40,8 @@ public:
 	CharParams();
 	
 	float distortionAmount;
+	float lineShiftAmount;
+	float greenDistAmount;
 	
 	CharParams *up, *down, *left, *right;
 };

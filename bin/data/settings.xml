@@ -3,7 +3,7 @@
 	<Distortion>38.5</Distortion>
 	<Distortion_Speed>13.1</Distortion_Speed>
 	<LineWidth>7.1</LineWidth>
-	<Line_Color>41, 179, 167, 255</Line_Color>
+	<Line_Color>41, 0, 167, 255</Line_Color>
 	<Background_Color>131, 70, 87, 255</Background_Color>
 <group/>
 <Distortion_I.Prog>100</Distortion_I.Prog>
@@ -20,7 +20,7 @@
 <Mouse_Repulsion>0</Mouse_Repulsion>
 <Shader_Background>1</Shader_Background>
 	<bShader_rotation_speed>0.025</bShader_rotation_speed>
-<Global_Time>6170.77</Global_Time>
+<Global_Time>7473.85</Global_Time>
 	<Global_Speed>0.1</Global_Speed>
 	<Distortion_Time>7473.37</Distortion_Time>
 <B.Shader>1</B.Shader>
@@ -30,15 +30,15 @@
 <B.Shader_C.Speed>0.005</B.Shader_C.Speed>
 <Box_Distortion>0</Box_Distortion>
 	<Box_Dist._Speed>0</Box_Dist._Speed>
-	<Box_Dist._Time>0</Box_Dist._Time>
+	<Box_Dist._Time>31.8715</Box_Dist._Time>
 	<Displacement>0</Displacement>
-<All_Dist._Amt.>27</All_Dist._Amt.>
-	<All_Dist._Speed>2.3</All_Dist._Speed>
-	<All_Dist._Time>423.92</All_Dist._Time>
+<All_Dist._Amt.>0</All_Dist._Amt.>
+	<All_Dist._Speed>13.8</All_Dist._Speed>
+	<All_Dist._Time>3725.86</All_Dist._Time>
 	<All_Displacement>0</All_Displacement>
 	<Part._Dist._Amt.>0</Part._Dist._Amt.>
-	<Part._Dist._Speed>0</Part._Dist._Speed>
-	<Part._Dist._Time>0</Part._Dist._Time>
-<Lines_Dist._Freq.>0</Lines_Dist._Freq.>
-	<Lines_Dist._Amt.>0</Lines_Dist._Amt.>
+	<Part._Dist._Speed>0.03</Part._Dist._Speed>
+	<Part._Dist._Time>31.0362</Part._Dist._Time>
+<Lines_Dist._Freq.>80</Lines_Dist._Freq.>
+	<Lines_Dist._Amt.>48.5</Lines_Dist._Amt.>
 </group>
