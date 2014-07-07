@@ -15,4 +15,5 @@ ResourceManager::ResourceManager()
 	font.loadFont("fonts/Helvetica.ttf", 70, true, true, true);
 	fontBold.loadFont("fonts/HelveticaBold.ttf", 70, true, true, true);
 	fontOblique.loadFont("fonts/HelveticaOblique.ttf", 70, true, true, true);
+	fontMedium.loadFont("fonts/HelveticaNeueMedium.ttf", 70, true, true, true);
 }

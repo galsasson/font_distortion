@@ -18,11 +18,12 @@ void testApp::setup(){
 	
 	initGui();
 
-	quote.push_back("If it should turn out to be true that knowledge (in the modern sense");
-	quote.push_back("of know-how) and thought have parted company for good, then we");
-	quote.push_back("would indeed become the helpless slaves, not so much of our machines");
-	quote.push_back("as of our know-how, thoughtless creatures at the mercy of every gadget");
-	quote.push_back("which is technically possible, no matter how murderous it is.");
+	quote.push_back("If it should turn out to be true that knowledge (in the modern");
+	quote.push_back("sense of know-how) and thought have parted company for good,");
+	quote.push_back("then we would indeed become the helpless slaves, not so much");
+	quote.push_back("of our machines as of our know-how, thoughtless creatures at");
+	quote.push_back("the mercy of every gadget which is technically possible, no matter");
+	quote.push_back("how murderous it is.");
 	quote.push_back("");
 	quote.push_back("Hannah Arendt");
 	quote.push_back("The Human Condition, 1958");
@@ -116,6 +117,10 @@ void testApp::initGui()
 	
 	Params::linesDistFreq.setup(		"Lines Dist. Freq.", 0, 0, 2000);
 	Params::linesDistAmount.setup(		"Lines Dist. Amt.", 0, 0, 100);
+	
+	Params::quoteLineSpace.setup(		"Quote line space", 160, 100, 200);
+	Params::quoteX.setup(				"Quote X", 100, 0, 800);
+	Params::quoteY.setup(				"Quote Y", 200, 0, 1000);
 
 	gui.setup();
 	gui.add(&Params::globalTime);
@@ -156,6 +161,10 @@ void testApp::initGui()
 	gui.add(&Params::fixedQuoteAlpha);
 	gui.add(&Params::mouseRepulsion);
 	gui.add(&Params::tempVar);
+	
+	gui.add(&Params::quoteLineSpace);
+	gui.add(&Params::quoteX);
+	gui.add(&Params::quoteY);
 
 	gui.loadFromFile("settings.xml");
 
@@ -389,7 +398,7 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 
 void testApp::drawQuote(const ofVec2f &p, ofShader& shader)
 {
-	float lineJump = 140;
+	float lineJump = Params::quoteLineSpace;
 	
 	for (int i=0; i<quote.size(); i++)
 	{
@@ -399,16 +408,22 @@ void testApp::drawQuote(const ofVec2f &p, ofShader& shader)
 		float y = p.y + lineJump*i;
 		
 		if (i == quote.size()-2) {
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontBold.getFontTexture(), 1);
-			ResourceManager::getInstance().fontBold.drawString(quote[i], x, y);
+//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontBold.getFontTexture(), 1);
+//			ResourceManager::getInstance().fontBold.drawString(quote[i], x, y);
+			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
+			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 		else if (i == quote.size()-1) {
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontOblique.getFontTexture(), 1);
-			ResourceManager::getInstance().fontOblique.drawString(quote[i], x, y);
+//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontOblique.getFontTexture(), 1);
+//			ResourceManager::getInstance().fontOblique.drawString(quote[i], x, y);
+			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
+			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 		else {
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontBold.getFontTexture(), 1);
-			ResourceManager::getInstance().fontBold.drawString(quote[i], x, y);
+//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
+//			ResourceManager::getInstance().font.drawString(quote[i], x, y);
+			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
+			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 	}
 }
@@ -485,7 +500,7 @@ void testApp::renderBoxedQuote()
 	distShader.setUniform1f("uncertainty", 1);
 	
 	ofSetColor(Params::lineColor);
-	drawQuote(ofVec2f(250, 600), distShader);
+	drawQuote(ofVec2f(Params::quoteX, Params::quoteY), distShader);
 	
 	distShader.end();
 }

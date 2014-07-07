@@ -25,6 +25,7 @@ public:
 	ofTrueTypeFont font;
 	ofTrueTypeFont fontBold;
 	ofTrueTypeFont fontOblique;
+	ofTrueTypeFont fontMedium;
 
 private:
 	ResourceManager();

@@ -50,3 +50,7 @@ ofxFloatSlider Params::bShaderColSpeed;
 
 ofxFloatSlider Params::globalTime;
 ofxFloatSlider Params::globalSpeed;
+
+ofxFloatSlider Params::quoteX;
+ofxFloatSlider Params::quoteY;
+ofxFloatSlider Params::quoteLineSpace;

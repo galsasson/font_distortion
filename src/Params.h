@@ -56,6 +56,11 @@ public:
 	
 	static ofxFloatSlider globalTime;
 	static ofxFloatSlider globalSpeed;
+	
+	
+	static ofxFloatSlider quoteX;
+	static ofxFloatSlider quoteY;
+	static ofxFloatSlider quoteLineSpace;
 };
 
 #endif /* defined(__font_distortion__Params__) */
