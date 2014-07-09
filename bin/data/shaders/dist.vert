@@ -32,9 +32,10 @@ uniform float boxDistTime;
 uniform float boxDistIntensity;
 uniform float distIntensity;
 uniform float dispAmount;
-uniform vec2 distPoint;
-uniform float partDistAmount;
-uniform float partDistTime;
+uniform vec2 mousePoint;
+uniform float mouseDistAmount;
+uniform float mouseDistRange;
+uniform float mouseDistTime;
 uniform float renderID;
 
 /**************************************************************/
@@ -143,15 +144,19 @@ void main()
 //	vec4 tlOffset = vec4(noise1, noise2, 0., 0.);
 //	vec4 brOffset = vec4(noise3, noise4, 0., 0.);
 	
-	// add noise to each vertex
-	vec4 vertNoise = vec4(0., 0., 0., 0.);
-	if (length(distPoint - position.xy) < 200) {
-		vertNoise = vec4((snoise(vec2(partDistTime*10, 0.) + position.xy))*partDistAmount,
-						  (snoise(vec2(partDistTime*10, 10.) + position.xy))*partDistAmount,
-							0.0, 0.0);
+	// add noise based on mouse position
+	vec4 vertNoise = vec4(0.0, 0.0, 0.0, 0.0);
+	
+	float distFromMouse = length(mousePoint - position.xy);
+	if (distFromMouse < mouseDistRange) {
+		float f = mouseDistAmount * (1-(distFromMouse / mouseDistRange));
+		vertNoise += vec4((snoise(vec2(mouseDistTime*10, 0.0) + position.xy))*f,
+						  (snoise(vec2(mouseDistTime*10, 10.0) + position.xy))*f,
+						 (snoise(vec2(mouseDistTime*10, 20.0) + position.xy))*f,
+						 0.0);
 	}
 	
-	focalAmount = length((distPoint - position.xy)/inResolution);
+	focalAmount = length((mousePoint - position.xy)/inResolution);
 	
 	// all distortion
 	if (vertIndex>1) {

@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxControlease.h"
 #include "ofxGui.h"
+#include "ofxControlease.h"
 
 #include "Params.h"
 
@@ -32,19 +33,14 @@ class testApp : public ofBaseApp{
 private:
 
 	void initGui();
+	void initControlease();
 	void drawQuote(const ofVec2f& p, ofShader& shader);
-//	void drawString(const std::string& str, const ofVec2f& p);
-//	void drawStringBold(const std::string& str, const ofVec2f& p);
-//	void drawStringOblique(const std::string& str, const ofVec2f& p);
 	
 	
 	void drawWithDistShader();
 	void drawWithFlowShader();
 
 	vector<std::string> quote;
-
-	FlowField flowField;
-	ofShader flowFieldShader;
 
 	vector<WildChar*> chars;
 
@@ -89,4 +85,6 @@ private:
 	float cursorTime;
 	
 	Animation animation;
+	
+	ofxControlease control;
 };

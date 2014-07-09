@@ -17,9 +17,10 @@ ofxFloatSlider Params::dispAmount;
 ofxFloatSlider Params::distTime;
 ofxFloatSlider Params::distSpeed;
 
-ofxFloatSlider Params::particlesDistAmount;
-ofxFloatSlider Params::particlesDistSpeed;
-ofxFloatSlider Params::particlesDistTime;
+ofxFloatSlider Params::mouseDistAmount;
+ofxFloatSlider Params::mouseDistRange;
+ofxFloatSlider Params::mouseDistSpeed;
+ofxFloatSlider Params::mouseDistTime;
 
 ofxFloatSlider Params::linesDistFreq;
 ofxFloatSlider Params::linesDistAmount;
@@ -31,16 +32,7 @@ ofxFloatSlider Params::tvColorSeparation;
 ofxFloatSlider Params::tvLinesIntensity;
 ofxFloatSlider Params::tvFlickerIntensity;
 
-ofxFloatSlider Params::flowFieldDistortion;
-ofxFloatSlider Params::zDistScale;
-ofxFloatSlider Params::flowFieldColor;
-
-ofxToggle Params::drawFixedQuote;
-ofxFloatSlider Params::fixedQuoteAlpha;
-
-ofxToggle Params::mouseRepulsion;
-
-ofxFloatSlider Params::tempVar;
+ofxFloatSlider Params::shaderColor;
 
 ofxToggle Params::bShader;
 ofxFloatSlider Params::bShaderTime;

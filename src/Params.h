@@ -23,9 +23,10 @@ public:
 	static ofxFloatSlider distTime;
 	static ofxFloatSlider distSpeed;
 	
-	static ofxFloatSlider particlesDistAmount;
-	static ofxFloatSlider particlesDistSpeed;
-	static ofxFloatSlider particlesDistTime;
+	static ofxFloatSlider mouseDistAmount;
+	static ofxFloatSlider mouseDistRange;
+	static ofxFloatSlider mouseDistSpeed;
+	static ofxFloatSlider mouseDistTime;
 
 	static ofxFloatSlider linesDistFreq;
 	static ofxFloatSlider linesDistAmount;
@@ -37,17 +38,8 @@ public:
 	static ofxFloatSlider tvLinesIntensity;
 	static ofxFloatSlider tvFlickerIntensity;
 
-	static ofxFloatSlider flowFieldDistortion;
-	static ofxFloatSlider zDistScale;
-	static ofxFloatSlider flowFieldColor;
+	static ofxFloatSlider shaderColor;
 
-	static ofxToggle drawFixedQuote;
-	static ofxFloatSlider fixedQuoteAlpha;
-	
-	static ofxToggle mouseRepulsion;
-	
-	static ofxFloatSlider tempVar;
-	
 	static ofxToggle bShader;
 	static ofxFloatSlider bShaderTime;
 	static ofxFloatSlider bShaderSpeed;

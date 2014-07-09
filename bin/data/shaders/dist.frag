@@ -3,7 +3,7 @@
 uniform vec4 globalColor;
 uniform sampler2D fontTex;
 uniform sampler2DRect colorTex;
-uniform float flowFieldColor;
+uniform float shaderColor;
 uniform vec2 inResolution;
 uniform float linesDistFreq;
 uniform float linesDistAmount;
@@ -51,8 +51,8 @@ void main(void) {
 //		addNoise = vec3(rand(texCoordBig+cursorTime), rand(texCoordBig+cursorTime+vec2(0, 1)), rand(texCoordBig+cursorTime+vec2(0, 2)));
 	}
 
-	// merge texture color 'colorTex' and 'globalColor' according to 'flowFieldColor' parameter
-	vec3 rgb = (flowFieldColor*vColor.rgb) + ((1-flowFieldColor)*globalColor.rgb) + addNoise;
+	// merge texture color 'colorTex' and 'globalColor' according to 'shaderColor' parameter
+	vec3 rgb = (shaderColor*vColor.rgb) + ((1-shaderColor)*globalColor.rgb) + addNoise;
 	
 //	if (greenDist > 0.) {
 //		rgb.r -= rand(vTexCoord)/2.;

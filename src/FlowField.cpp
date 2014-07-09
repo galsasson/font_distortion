@@ -27,8 +27,8 @@ void FlowField::setup(int w, int h)
 
 void FlowField::update()
 {
-	if (Params::mouseRepulsion)
-	{
+//	if (Params::mouseRepulsion)
+//	{
 		reset();
 		ofVec2f mousePos(ofGetMouseX(), ofGetMouseY());
 		addRepulsion(ofVec2f(ofGetMouseX(), ofGetMouseY()), 100, 10);
@@ -43,7 +43,7 @@ void FlowField::update()
 //			}
 //			
 //		}
-	}
+//	}
 }
 
 void FlowField::draw(float x, float y, float w, float h)

@@ -56,7 +56,7 @@ void WildChar::calcPoints(float time)
 	charOutline.clear();
 	offsets.clear();
 
-	ttfchar = ResourceManager::getInstance().font.getCharacterAsPoints(chr);
+	ttfchar = ResourceManager::getInstance().fontMedium.getCharacterAsPoints(chr);
 
 	charOutline = ttfchar.getOutline();
 	if (charOutline.size() <= 0) {
@@ -68,18 +68,18 @@ void WildChar::calcPoints(float time)
 		res = (float)ofGetMouseX()/20;
 	}
 
-#if 0
+#if 1
 	for (int i=0; i<charOutline.size(); i++)
 	{
 		charPoints.push_back(vector<ofPoint>());
 		offsets.push_back(vector<ofVec2f>());
-		for (float p=0; p<=1; p+=(float)1/Params::resolution)
+		for (float p=0; p<=1; p+=(float)1/50)//Params::resolution)
 		{
 			charPoints[i].push_back(charOutline[i].getPointAtPercent(p));
 			offsets[i].push_back(
 								 ofVec2f(
-										 (ofNoise(Params::distortionSpeed*time+p*Params::distortionIndexProg)-0.5)*Params::distortion,
-										 (ofNoise(Params::distortionSpeed*time+p*Params::distortionIndexProg+10000)-0.5)*Params::distortion
+										 (ofNoise(1*time+p*10)-0.5)*10,
+										 (ofNoise(1*time+p*10+10000)-0.5)*10
 										 )
 								 );
 		}
