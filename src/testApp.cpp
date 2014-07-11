@@ -41,6 +41,11 @@ void testApp::setup(){
 	fractalShaderFbo.begin();
 	ofClear(0, 0, 0, 255);
 	fractalShaderFbo.end();
+	combinedFbo.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, GL_RGBA);
+	combinedFbo.begin();
+	ofClear(0, 0, 0, 255);
+	combinedFbo.end();
+	
 	
 	renderColorTexture();
 	
@@ -60,6 +65,10 @@ void testApp::setup(){
 	cursorTime = 0;
 	
 	animation.setup();
+	
+//	recorder.setup(ofGetWindowWidth(), ofGetWindowHeight());
+//	recorder.preAllocate(150);
+//	bRecording = false;
 }
 
 void testApp::initGui()
@@ -77,6 +86,9 @@ void testApp::initGui()
 	Params::mouseDistRange.setup(	"Mouse. Dist. Range", 0, 0, 2000);
 	Params::mouseDistSpeed.setup(	"Mouse. Dist. Speed", 0, 0, 1);
 	Params::mouseDistAmount.setup(	"Mouse. Dist. Amt.", 0, 0, 2000);
+	
+	Params::mouseBlowRange.setup(	"Mouse. Blow Range", 0, 0, 2000);
+	Params::mouseBlowAmount.setup(	"Mouse. Blow Amt.", 0, 0, 8000);
 
 	Params::shaderColor.setup(		"Shader Color", 0, 0, 1);
 
@@ -85,6 +97,7 @@ void testApp::initGui()
 	Params::tvColorSeparation.setup(	"Color Separation", 0, 0, 50);
 	Params::tvLinesIntensity.setup(		"TV Lines Intensity", 0.1, 0, 1);
 	Params::tvFlickerIntensity.setup(	"TV Flicker Intensity", 0.03, 0, 1);
+	Params::tvVignetteIntensity.setup(	"TV Vignette Intensity", 16, 0, 256);
 
 	Params::bShader.setup(				"B.Shader", false);
 	Params::bShaderTime.setup(			"B.Shader Time", 0, 0, 1000);
@@ -122,6 +135,9 @@ void testApp::initGui()
 	gui.add(&Params::mouseDistSpeed);
 	gui.add(&Params::mouseDistTime);
 	
+	gui.add(&Params::mouseBlowAmount);
+	gui.add(&Params::mouseBlowRange);
+	
 	gui.add(&Params::boxDistIntensity);
 	gui.add(&Params::boxDistSpeed);
 	gui.add(&Params::boxDistTime);
@@ -132,6 +148,7 @@ void testApp::initGui()
 	gui.add(&Params::shaderColor);
 
 	gui.add(&Params::tvColorSeparation);
+	gui.add(&Params::tvVignetteIntensity);
 	gui.add(&Params::tvLinesIntensity);
 	gui.add(&Params::tvFlickerIntensity);
 	gui.add(&Params::lineColor);
@@ -194,29 +211,50 @@ void testApp::update()
 	}
 	backgroundFbo.end();
 	
-	font0Fbo.begin();
-	renderNormalQuote();
-	font0Fbo.end();
+//	font0Fbo.begin();
+//	renderNormalQuote();
+//	font0Fbo.end();
 
 	font1Fbo.begin();
 	renderBoxedQuote();
 	font1Fbo.end();
+	
+//	combinedFbo.begin();
+//	ofSetColor(255);
+//	backgroundFbo.draw(0, 0);
+//	if (bToggleFont0) {
+//		font0Fbo.draw(0, 0);
+//	}
+//	
+//	if (bToggleFont1) {
+//		font1Fbo.draw(0, 0);
+//	}
+//	combinedFbo.end();
+	
+	
 }
 
 //--------------------------------------------------------------
 void testApp::draw()
 {
+	tvShaderStart();
+	
 	ofSetColor(255);
 	backgroundFbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 
+	tvShaderEnd();
+	
+	tvShaderStart();
+	
 	if (bToggleFont0) {
 		font0Fbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 	}
 	
 	if (bToggleFont1) {
 		font1Fbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-	}
-
+	}	
+	tvShaderEnd();
+	
 	if (bToggleGui) {
 		ofSetColor(255);
 		textArea.getTextureRef().draw(0, 0);
@@ -228,6 +266,7 @@ void testApp::draw()
 		
 		gui.draw();
 	}
+	
 }
 
 void testApp::setupString(string str)
@@ -277,6 +316,9 @@ void testApp::keyPressed(int key){
 			Params::globalSpeed = 0;
 		}
 	}
+//	else if (key == 'r') {
+//		bRecording = !bRecording;
+//	}
 	else {
 		textArea.keyPressed(key);
 	}
@@ -400,7 +442,7 @@ void testApp::renderBoxedQuote()
 	distShader.begin();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NONE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NONE);
-//	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
+//	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);	// moved to drawQuote
 	distShader.setUniformTexture("colorTex", fractalShaderFbo.getTextureReference(), 2);
 	distShader.setUniformTexture("textAreaTex", textArea.getTextureRef(), 3);
 	distShader.setUniform1f("shaderColor", Params::shaderColor);
@@ -418,7 +460,10 @@ void testApp::renderBoxedQuote()
 	distShader.setUniform1f("mouseDistAmount", Params::mouseDistAmount);
 	distShader.setUniform1f("mouseDistRange", Params::mouseDistRange);
 	distShader.setUniform1f("mouseDistTime", Params::mouseDistTime);
-	
+
+	distShader.setUniform1f("mouseBlowAmount", Params::mouseBlowAmount);
+	distShader.setUniform1f("mouseBlowRange", Params::mouseBlowRange);
+
 	distShader.setUniform1f("linesDistFreq", Params::linesDistFreq);
 	distShader.setUniform1f("linesDistAmount", Params::linesDistAmount);
 	
@@ -444,15 +489,20 @@ void testApp::renderNormalQuote()
 	normalFontShader.end();
 }
 
-void testApp::applyTvShader(const ofFbo &fbo)
+void testApp::tvShaderStart()
 {
 	tvShader.begin();
 	tvShader.setUniform1f("time", Params::globalTime);
 	tvShader.setUniform2f("resolution", ofGetWindowWidth()*2, ofGetWindowHeight()*2);
 	tvShader.setUniform1f("colorSeparation", Params::tvColorSeparation);
+	tvShader.setUniform1f("vignetteIntensity", Params::tvVignetteIntensity);
 	tvShader.setUniform1f("linesIntensity", Params::tvLinesIntensity);
 	tvShader.setUniform1f("flickerIntensity", Params::tvFlickerIntensity);
+}
 
-	tvShader.end();	
-
+void testApp::tvShaderEnd()
+{
+	tvShader.end();
+	
+	cout<<ofGetFrameRate()<<endl;
 }

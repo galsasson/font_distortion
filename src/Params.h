@@ -27,6 +27,9 @@ public:
 	static ofxFloatSlider mouseDistRange;
 	static ofxFloatSlider mouseDistSpeed;
 	static ofxFloatSlider mouseDistTime;
+	
+	static ofxFloatSlider mouseBlowAmount;
+	static ofxFloatSlider mouseBlowRange;
 
 	static ofxFloatSlider linesDistFreq;
 	static ofxFloatSlider linesDistAmount;
@@ -37,6 +40,7 @@ public:
 	static ofxFloatSlider tvColorSeparation;
 	static ofxFloatSlider tvLinesIntensity;
 	static ofxFloatSlider tvFlickerIntensity;
+	static ofxFloatSlider tvVignetteIntensity;
 
 	static ofxFloatSlider shaderColor;
 

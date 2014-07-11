@@ -20,6 +20,7 @@
 uniform float time;
 uniform vec2 resolution;
 uniform float colorSeparation;
+uniform float vignetteIntensity;
 uniform float linesIntensity;
 uniform float flickerIntensity;
 //uniform sampler2D sampler0;
@@ -36,26 +37,34 @@ out vec4 outColor;
 void main(void) {
 
 	vec2 position = vTexCoord / resolution.xy;
-	position.y *=-1.0;
 	vec3 color;
 
 	//color separation
 	vec2 texPos = position * resolution;
+	vec2 texPosRight = vec2(texPos.x+colorSeparation,texPos.y);
+	vec2 texPosMiddle = texPos;
+	vec2 texPosLeft = vec2(texPos.x-colorSeparation,texPos.y);
+	
 	// on x
-	color.r = texture(tex0,vec2(texPos.x+colorSeparation,-texPos.y)).x;
-	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
-	color.b = texture(tex0,vec2(texPos.x-colorSeparation,-texPos.y)).z;
+	vec4 colorRight = texture(tex0,texPosRight);
+	vec4 colorMiddle = texture(tex0,texPosMiddle);
+	vec4 colorLeft = texture(tex0,texPosLeft);
+	
+	color.r = colorLeft.r;
+	color.g = colorMiddle.g;
+	color.b = colorRight.b;
 
-	// on y
-//	color.r = texture(tex0,vec2(texPos.x,-texPos.y+colorSeparation)).x;
-//	color.g = texture(tex0,vec2(texPos.x+0.000,-texPos.y)).y;
-//	color.b = texture(tex0,vec2(texPos.x,-texPos.y-colorSeparation)).z;
+	float alpha = clamp(colorLeft.a + colorMiddle.a + colorRight.a, 0.0, 1.0);
+	if (colorMiddle.a == 1.0) {
+		color = colorMiddle.rgb;
+		alpha = 1.0;
+	}
 
 	//contrast
 	color = clamp(color*0.5+0.5*color*color*1.2,0.0,1.0);
 
 	//circular vignette fade
-	color *= 0.5 + 0.5*16.0*position.x*position.y*(1.0-position.x)*(-1.0-position.y);
+	color *= 0.5 + 0.5*vignetteIntensity*position.x*2*position.y*2*(1.0-position.x*2)*(1.0-position.y*2);
 
 	//color shift
 	//color *= vec3(0.8,1.0,0.7); //green
@@ -73,5 +82,5 @@ void main(void) {
 	//tv flicker effect
 	color *= (1.0-flickerIntensity) + flickerIntensity*sin(110.0*time);
 
-	outColor = vec4(color,1.0);
+	outColor = vec4(color,alpha);
 }

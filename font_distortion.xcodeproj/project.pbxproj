@@ -22,6 +22,7 @@
 		2A35ED591963B75F00101522 /* ofxAnimatableOfColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED511963B75F00101522 /* ofxAnimatableOfColor.cpp */; };
 		2A35ED5A1963B75F00101522 /* ofxAnimatableOfPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED531963B75F00101522 /* ofxAnimatableOfPoint.cpp */; };
 		2A35ED5D1963B7B400101522 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A35ED5B1963B7B400101522 /* Animation.cpp */; };
+		2A3AF270196DBF530066DC36 /* MemRecorder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A3AF26E196DBF530066DC36 /* MemRecorder.cpp */; };
 		2A54BCF5195FF017009401E5 /* TextArea.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2A54BCF3195FF017009401E5 /* TextArea.cpp */; };
 		2AB31B55195103F800809524 /* FlowField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2AB31B53195103F800809524 /* FlowField.cpp */; };
 		4294163B15857489B2176769 /* svgtiny_gradient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 582921BA98D224ED41833868 /* svgtiny_gradient.cpp */; };
@@ -138,6 +139,8 @@
 		2A35ED541963B75F00101522 /* ofxAnimatableOfPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableOfPoint.h; sourceTree = "<group>"; };
 		2A35ED5B1963B7B400101522 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = "<group>"; };
 		2A35ED5C1963B7B400101522 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
+		2A3AF26E196DBF530066DC36 /* MemRecorder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemRecorder.cpp; sourceTree = "<group>"; };
+		2A3AF26F196DBF530066DC36 /* MemRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemRecorder.h; sourceTree = "<group>"; };
 		2A54BCF3195FF017009401E5 /* TextArea.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextArea.cpp; sourceTree = "<group>"; };
 		2A54BCF4195FF017009401E5 /* TextArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextArea.h; sourceTree = "<group>"; };
 		2A5B1FAD3F30C8065C396ACB /* NetworkingUtilsWin.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = NetworkingUtilsWin.cpp; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/win32/NetworkingUtilsWin.cpp; sourceTree = SOURCE_ROOT; };
@@ -605,6 +608,8 @@
 				2A54BCF4195FF017009401E5 /* TextArea.h */,
 				2A35ED5B1963B7B400101522 /* Animation.cpp */,
 				2A35ED5C1963B7B400101522 /* Animation.h */,
+				2A3AF26E196DBF530066DC36 /* MemRecorder.cpp */,
+				2A3AF26F196DBF530066DC36 /* MemRecorder.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -753,6 +758,7 @@
 				72A929D3561B8232A182ABFC /* ofxOscBundle.cpp in Sources */,
 				2A54BCF5195FF017009401E5 /* TextArea.cpp in Sources */,
 				2A35ED5D1963B7B400101522 /* Animation.cpp in Sources */,
+				2A3AF270196DBF530066DC36 /* MemRecorder.cpp in Sources */,
 				5864AD82E20F15536D054EA3 /* ofxOscMessage.cpp in Sources */,
 				2A35ED571963B75F00101522 /* ofxAnimatable.cpp in Sources */,
 				4ADB88E2FB52E76A471065DE /* ofxOscParameterSync.cpp in Sources */,

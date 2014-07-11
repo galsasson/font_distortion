@@ -45,19 +45,19 @@ void main(void) {
 	
 	vec3 addNoise = vec3(0, 0, 0);;
 	
-	if (isCursor > 0 || letterLineDistAmount>0) {
+	if (isCursor > 0 || letterLineDistAmount>0 || greenDist > 0.) {
 //		vec2 texCoordBig = vec2(step(sin(vTexCoord.x*1000), 0), step(sin(vTexCoord.y*1000), 0));
 		addNoise = vec3(rand(vTexCoord+cursorTime), rand(vTexCoord+cursorTime+vec2(0, 2)), rand(vTexCoord+cursorTime+vec2(0, 4)));
 //		addNoise = vec3(rand(texCoordBig+cursorTime), rand(texCoordBig+cursorTime+vec2(0, 1)), rand(texCoordBig+cursorTime+vec2(0, 2)));
 	}
-
+	
 	// merge texture color 'colorTex' and 'globalColor' according to 'shaderColor' parameter
 	vec3 rgb = (shaderColor*vColor.rgb) + ((1-shaderColor)*globalColor.rgb) + addNoise;
-	
-//	if (greenDist > 0.) {
-//		rgb.r -= rand(vTexCoord)/2.;
-//		rgb.b -= rand(vTexCoord);
-//	}
+
+	if (isCursor > 0.) {
+		rgb.r -= rand(vTexCoord)/2.;
+		rgb.b -= rand(vTexCoord);
+	}
 	
 	outColor = vec4(rgb, texel.a);
 

@@ -10,7 +10,7 @@ int main( ){
 	ofAppGLFWWindow win;
 	win.setNumSamples(8);
 	
-	ofSetupOpenGL(&win, 1920, 1080, OF_FULLSCREEN);
+	ofSetupOpenGL(&win, 1920, 1080, OF_WINDOW);
 //	ofSetupOpenGL(1920, 1080, OF_WINDOW);
 
 	// can be OF_WINDOW or OF_FULLSCREEN

@@ -13,6 +13,8 @@
 
 #include "Animation.h"
 
+#include "MemRecorder.h"
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -51,6 +53,7 @@ private:
 	ofFbo fractalShaderFbo;
 	ofFbo font0Fbo;
 	ofFbo font1Fbo;
+	ofFbo combinedFbo;
 	
 	ofShader tvShader;
 	ofImage colorTexture;
@@ -77,7 +80,8 @@ private:
 	bool bToggleFont0 = false;
 	bool bToggleFont1 = true;
 	
-	void applyTvShader(const ofFbo& fbo);
+	void tvShaderStart();
+	void tvShaderEnd();
 	
 	float prevSpeed;
 	
@@ -87,4 +91,8 @@ private:
 	Animation animation;
 	
 	ofxControlease control;
+	
+	// mem recorder
+//	bool bRecording;
+//	MemRecorder recorder;
 };

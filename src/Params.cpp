@@ -22,6 +22,9 @@ ofxFloatSlider Params::mouseDistRange;
 ofxFloatSlider Params::mouseDistSpeed;
 ofxFloatSlider Params::mouseDistTime;
 
+ofxFloatSlider Params::mouseBlowAmount;
+ofxFloatSlider Params::mouseBlowRange;
+
 ofxFloatSlider Params::linesDistFreq;
 ofxFloatSlider Params::linesDistAmount;
 
@@ -31,6 +34,7 @@ ofxColorSlider Params::backgroundColor;
 ofxFloatSlider Params::tvColorSeparation;
 ofxFloatSlider Params::tvLinesIntensity;
 ofxFloatSlider Params::tvFlickerIntensity;
+ofxFloatSlider Params::tvVignetteIntensity;
 
 ofxFloatSlider Params::shaderColor;
 

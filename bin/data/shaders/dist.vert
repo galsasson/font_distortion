@@ -36,6 +36,8 @@ uniform vec2 mousePoint;
 uniform float mouseDistAmount;
 uniform float mouseDistRange;
 uniform float mouseDistTime;
+uniform float mouseBlowRange;
+uniform float mouseBlowAmount;
 uniform float renderID;
 
 /**************************************************************/
@@ -149,11 +151,18 @@ void main()
 	
 	float distFromMouse = length(mousePoint - position.xy);
 	if (distFromMouse < mouseDistRange) {
-		float f = mouseDistAmount * (1-(distFromMouse / mouseDistRange));
+		float f = mouseDistAmount * pow(1-(distFromMouse / mouseDistRange), 1.5);
 		vertNoise += vec4((snoise(vec2(mouseDistTime*10, 0.0) + position.xy))*f,
 						  (snoise(vec2(mouseDistTime*10, 10.0) + position.xy))*f,
 						 (snoise(vec2(mouseDistTime*10, 20.0) + position.xy))*f,
 						 0.0);
+	}
+	
+	if (distFromMouse < mouseBlowRange) {
+		float f = mouseBlowAmount * pow(1-(distFromMouse / mouseBlowRange), 1.5);
+		vertNoise += vec4(0, 0,
+						  (snoise(vec2(mouseDistTime*10, 20.0) + position.xy))*f,
+						  0.0);
 	}
 	
 	focalAmount = length((mousePoint - position.xy)/inResolution);
@@ -199,12 +208,12 @@ void main()
 	// green distortion
 	if (letterParams.b > 0.0) {
 		greenDist = 1;
-		if (letterIndex % 4 == vertIndex) {
-			// symetrical version (cartoonish)
-			float gnx = (snoise(vec2(renderID*10 + letterIndex*100, boxDistTime)))*100;
-			float gny = (snoise(vec2(renderID*20 + letterIndex*100, boxDistTime)))*100;
-			vertNoise += vec4(gnx, gny, 0.0, 0.0);
-		}
+//		if (letterIndex % 4 == vertIndex) {
+//			// symetrical version (cartoonish)
+//			float gnx = (snoise(vec2(renderID*10 + letterIndex*100, boxDistTime)))*100;
+//			float gny = (snoise(vec2(renderID*20 + letterIndex*100, boxDistTime)))*100;
+//			vertNoise += vec4(gnx, gny, 0.0, 0.0);
+//		}
 	}
 	else {
 		greenDist = 0;
