@@ -8,6 +8,50 @@
 
 #include "TextArea.h"
 
+CharParams::CharParams(const vector<ofVec3f>& corner)
+{
+	cornerVerts = corner;
+	
+	up = down = left = right = NULL;
+	distortionAmount = 0;
+	lineShiftAmount = 0;
+	greenDistAmount = 0;
+}
+
+void CharParams::randomize()
+{
+	if (ofRandom(1) < 0.5) {
+		distortionAmount = 1;
+	}
+	else {
+		distortionAmount = 0;
+	}
+
+	if (ofRandom(1) < 0.5) {
+		lineShiftAmount = 1;
+	}
+	else {
+		lineShiftAmount = 0;
+	}
+
+	if (ofRandom(1) < 0.5) {
+		greenDistAmount = 1;
+	}
+	else {
+		greenDistAmount = 0;
+	}
+}
+
+void CharParams::draw()
+{
+	ofFill();
+	ofSetColor(255);
+	for (int i=0; i<cornerVerts.size(); i++)
+	{
+		ofEllipse(cornerVerts[i].x, cornerVerts[i].y, 4, 4);
+	}
+}
+
 TextArea::~TextArea()
 {
 	for (int line=0; line<charParams.size(); line++)
@@ -21,6 +65,8 @@ TextArea::~TextArea()
 
 void TextArea::setup(vector<std::string> quote)
 {
+	bEnableCursor = false;
+	bAutoMode = false;
 	cursorX = 0;
 	cursorY = 0;
 	
@@ -29,24 +75,15 @@ void TextArea::setup(vector<std::string> quote)
 	{
 		vector<CharParams*> lineVector;
 		
-		// skip empty lines
-//		if (quote[line].length() == 0) {
-//			continue;
-//		}
+		float x = Params::quoteX;
+		float y = Params::quoteY + Params::quoteLineSpace * line;
+		ofMesh mesh = ResourceManager::getInstance().fontMedium.getStringMesh(quote[line], x, y);
+		vector<ofVec3f> verts = mesh.getVertices();
 		
-		for (int chr=0; chr<quote[line].length(); chr++)
+		for (int i=0; i<verts.size(); i++)
 		{
-			if (quote[line][chr] == ' ') {
-				continue;
-			}
-			
-			CharParams *cp = new CharParams();
-//			if (line==cursorY && chr==cursorX) {
-//				cp->distortionAmount = 1;
-//			}
-//			else {
-//				cp->distortionAmount = 0;
-//			}
+			std::vector<ofVec3f> charVerts(verts.begin()+i, verts.begin()+i+4);
+			CharParams *cp = new CharParams(charVerts);
 			lineVector.push_back(cp);
 		}
 		
@@ -62,6 +99,55 @@ void TextArea::setup(vector<std::string> quote)
 	}
 	stateImage.update();
 	updateTexture();
+}
+
+void TextArea::update()
+{
+	if (!bAutoMode) {
+		return;
+	}
+	
+	if (ofRandom(1) < 0.7) {
+		// randmize key press
+		int key = (int)ofRandom(8);
+		switch (key) {
+			case 0:
+				keyPressed(OF_KEY_LEFT);
+				break;
+			case 1:
+				keyPressed(OF_KEY_RIGHT);
+				break;
+			case 2:
+				keyPressed(OF_KEY_UP);
+				break;
+			case 3:
+				keyPressed(OF_KEY_DOWN);
+				break;
+			case 4:
+				keyPressed('z');
+				break;
+			case 5:
+				keyPressed('x');
+				break;
+			case 6:
+				keyPressed('c');
+				break;
+			case 7:
+				keyPressed('v');
+				break;
+		}
+	}
+}
+
+void TextArea::draw()
+{
+	for (int i=0; i<charParams.size(); i++)
+	{
+		for (int j=0; j<charParams[i].size(); j++)
+		{
+			charParams[i][j]->draw();
+		}
+	}
 }
 
 void TextArea::keyPressed(int key)
@@ -136,6 +222,29 @@ void TextArea::keyPressed(int key)
 			cp->greenDistAmount = 1;
 		}
 	}
+	else if (key == 'e') {
+		for (int i=0; i<charParams.size(); i++) {
+			for (int j=0; j<charParams[i].size(); j++)
+			{
+				charParams[i][j]->reset();
+			}
+		}
+	}
+	else if (key == 'r') {
+		for (int i=0; i<charParams.size(); i++) {
+			for (int j=0; j<charParams[i].size(); j++)
+			{
+				charParams[i][j]->randomize();
+			}
+		}
+	}
+	else if (key == 't') {
+		bEnableCursor = !bEnableCursor;
+	}
+	else if (key == 'a') {
+		bAutoMode = !bAutoMode;
+		bEnableCursor = true;
+	}
 	
 	updateTexture();
 }
@@ -149,7 +258,7 @@ void TextArea::updateTexture()
 		{
 			CharParams *cp = charParams[line][chr];
 			float isCursor = 0;
-			if (line == cursorY && chr == cursorX) {
+			if (bEnableCursor && line == cursorY && chr == cursorX) {
 				isCursor = 1;
 			}
 			stateImage.setColor(chr*2, line*2, ofFloatColor(cp->distortionAmount, cp->lineShiftAmount, cp->greenDistAmount, isCursor));
@@ -161,13 +270,4 @@ void TextArea::updateTexture()
 //	stateImage.setColor(cursorX*2, cursorY*2, cursorColo);
 	
 	stateImage.update();
-}
-
-
-CharParams::CharParams()
-{
-	up = down = left = right = NULL;
-	distortionAmount = 0;
-	lineShiftAmount = 0;
-	greenDistAmount = 0;
 }

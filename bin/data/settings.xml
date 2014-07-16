@@ -3,8 +3,8 @@
 	<Distortion>38.5</Distortion>
 	<Distortion_Speed>13.1</Distortion_Speed>
 	<LineWidth>7.1</LineWidth>
-	<Line_Color>0, 0, 0, 255</Line_Color>
-	<Background_Color>15, 145, 226, 255</Background_Color>
+	<Line_Color>193, 41, 57, 255</Line_Color>
+	<Background_Color>15, 40, 93, 255</Background_Color>
 <group/>
 <Distortion_I.Prog>100</Distortion_I.Prog>
 <Temp_Var>0</Temp_Var>
@@ -20,13 +20,13 @@
 <Mouse_Repulsion>0</Mouse_Repulsion>
 <Shader_Background>1</Shader_Background>
 	<bShader_rotation_speed>0.025</bShader_rotation_speed>
-<Global_Time>14993.8</Global_Time>
+<Global_Time>17089.6</Global_Time>
 	<Global_Speed>0.03</Global_Speed>
 	<Distortion_Time>7473.37</Distortion_Time>
 <B.Shader>0</B.Shader>
-	<B.Shader_Time>35.6702</B.Shader_Time>
-	<B.Shader_Speed>0.2</B.Shader_Speed>
-<B.Shader_Zoom>0.35</B.Shader_Zoom>
+	<B.Shader_Time>165</B.Shader_Time>
+	<B.Shader_Speed>0</B.Shader_Speed>
+<B.Shader_Zoom>0.5</B.Shader_Zoom>
 <B.Shader_C.Speed>0.005</B.Shader_C.Speed>
 <Box_Distortion>0</Box_Distortion>
 	<Box_Dist._Speed>0</Box_Dist._Speed>
@@ -34,19 +34,25 @@
 	<Displacement>0</Displacement>
 <All_Dist._Amt.>0</All_Dist._Amt.>
 	<All_Dist._Speed>1</All_Dist._Speed>
-	<All_Dist._Time>103251</All_Dist._Time>
+	<All_Dist._Time>105439</All_Dist._Time>
 	<All_Displacement>0</All_Displacement>
 	<Part._Dist._Amt.>0</Part._Dist._Amt.>
 	<Part._Dist._Speed>0.03</Part._Dist._Speed>
 	<Part._Dist._Time>244.818</Part._Dist._Time>
-<Lines_Dist._Freq.>80</Lines_Dist._Freq.>
-	<Lines_Dist._Amt.>48.5</Lines_Dist._Amt.>
+<Lines_Dist._Freq.>950</Lines_Dist._Freq.>
+	<Lines_Dist._Amt.>70.5</Lines_Dist._Amt.>
 <Quote_line_space>160</Quote_line_space>
-	<Quote_X>348</Quote_X>
-	<Quote_Y>445</Quote_Y>
-<Mouse._Dist._Amt.>330</Mouse._Dist._Amt.>
-	<Mouse._Dist._Range>1240</Mouse._Dist._Range>
-	<Mouse._Dist._Speed>0.035</Mouse._Dist._Speed>
-	<Mouse._Dist._Time>128.833</Mouse._Dist._Time>
+	<Quote_X>216</Quote_X>
+	<Quote_Y>495</Quote_Y>
+<Mouse._Dist._Amt.>0</Mouse._Dist._Amt.>
+	<Mouse._Dist._Range>0</Mouse._Dist._Range>
+	<Mouse._Dist._Speed>0</Mouse._Dist._Speed>
+	<Mouse._Dist._Time>0</Mouse._Dist._Time>
 <Shader_Color>0</Shader_Color>
+<Mouse._Blow_Amt.>0</Mouse._Blow_Amt.>
+	<Mouse._Blow_Range>0</Mouse._Blow_Range>
+	<TV_Vignette_Intensity>0</TV_Vignette_Intensity>
+<Pan_X>0</Pan_X>
+	<Pan_Y>0</Pan_Y>
+	<Zoom>1</Zoom>
 </group>

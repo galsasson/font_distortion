@@ -1,5 +1,7 @@
 #include "testApp.h"
 
+//#define HANNAH_ARENDT
+
 //--------------------------------------------------------------
 void testApp::setup(){
 //    control.setup("Font Distortion", 5000);
@@ -19,6 +21,7 @@ void testApp::setup(){
 	initGui();
 	initControlease();
 
+#ifdef HANNAH_ARENDT
 	quote.push_back("If it should turn out to be true that knowledge (in the modern");
 	quote.push_back("sense of know-how) and thought have parted company for good,");
 	quote.push_back("then we would indeed become the helpless slaves, not so much");
@@ -28,6 +31,17 @@ void testApp::setup(){
 	quote.push_back("");
 	quote.push_back("Hannah Arendt");
 	quote.push_back("The Human Condition, 1958");
+#else
+	quote.push_back("No \"territorial\" determination is pertinent any longer for locating the seat");
+	quote.push_back("of new technologies of transmission or aggression. ... \"terrorist\" attacks");
+	quote.push_back("already no longer need planes, bombs, or kamikazes: it is enough to");
+	quote.push_back("infiltrate a strategically important computer system and introduce a virus");
+	quote.push_back("or some other disruptive element to paralyze the economic, military, and");
+	quote.push_back("political resources of an entire country or continent.");
+	quote.push_back("");
+	quote.push_back("Jacques Derrida");
+	quote.push_back("Philosophy in a Time of Terror, 2003");
+#endif
 	
 	font0Fbo.allocate(ofGetWindowWidth()*2, ofGetWindowHeight()*2, GL_RGBA);
 	font0Fbo.begin();
@@ -108,12 +122,16 @@ void testApp::initGui()
 	Params::globalTime.setup(			"Global Time", 0, 0, 1000);
 	Params::globalSpeed.setup(			"Global Speed", 1, -1, 1);
 	
-	Params::linesDistFreq.setup(		"Lines Dist. Freq.", 0, 0, 2000);
+	Params::linesDistFreq.setup(		"Lines Dist. Freq.", 0, 0, TWO_PI);
 	Params::linesDistAmount.setup(		"Lines Dist. Amt.", 0, 0, 100);
 	
 	Params::quoteLineSpace.setup(		"Quote line space", 160, 100, 200);
 	Params::quoteX.setup(				"Quote X", 100, 0, 800);
 	Params::quoteY.setup(				"Quote Y", 200, 0, 1000);
+	
+	Params::panX.setup(					"Pan X", 0, ofGetWindowWidth(), -ofGetWindowWidth());
+	Params::panY.setup(					"Pan Y", 0, ofGetWindowHeight(), -ofGetWindowHeight());
+	Params::zoom.setup(					"Zoom", 1, 1, 20);
 
 	gui.setup();
 	gui.add(&Params::globalTime);
@@ -157,6 +175,10 @@ void testApp::initGui()
 	gui.add(&Params::quoteLineSpace);
 	gui.add(&Params::quoteX);
 	gui.add(&Params::quoteY);
+	
+	gui.add(&Params::panX);
+	gui.add(&Params::panY);
+	gui.add(&Params::zoom);
 
 	gui.loadFromFile("settings.xml");
 
@@ -187,6 +209,7 @@ void testApp::initControlease()
 void testApp::update()
 {
 //	animation.update(1.0f / 60);
+	textArea.update();
 
 	Params::globalTime += Params::globalSpeed;
 	Params::bShaderTime += Params::bShaderSpeed*Params::globalSpeed;
@@ -217,6 +240,7 @@ void testApp::update()
 
 	font1Fbo.begin();
 	renderBoxedQuote();
+//	textArea.draw();
 	font1Fbo.end();
 	
 //	combinedFbo.begin();
@@ -237,13 +261,19 @@ void testApp::update()
 //--------------------------------------------------------------
 void testApp::draw()
 {
+//	ofTranslate(-1000, -1000);
 	tvShaderStart();
+	ofPushMatrix();
+	ofTranslate(ofGetWindowSize()/2);
+	ofScale(Params::zoom, Params::zoom);
+	ofTranslate(-ofGetWindowSize()/2);
+	ofTranslate(Params::panX, Params::panY);
+//	ofTranslate(ofGetWindowSize()/2);
 	
 	ofSetColor(255);
 	backgroundFbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
 
 	tvShaderEnd();
-	
 	tvShaderStart();
 	
 	if (bToggleFont0) {
@@ -252,7 +282,9 @@ void testApp::draw()
 	
 	if (bToggleFont1) {
 		font1Fbo.draw(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-	}	
+	}
+	
+	ofPopMatrix();
 	tvShaderEnd();
 	
 	if (bToggleGui) {
@@ -366,31 +398,20 @@ void testApp::dragEvent(ofDragInfo dragInfo){
 
 void testApp::drawQuote(const ofVec2f &p, ofShader& shader)
 {
-	float lineJump = Params::quoteLineSpace;
-	
 	for (int i=0; i<quote.size(); i++)
 	{
 		shader.setUniform1f("renderID", i);
 
 		float x = p.x;
-		float y = p.y + lineJump*i;
+		float y = p.y + Params::quoteLineSpace*i;
 		
 		if (i == quote.size()-2) {
-//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontBold.getFontTexture(), 1);
-//			ResourceManager::getInstance().fontBold.drawString(quote[i], x, y);
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
 			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 		else if (i == quote.size()-1) {
-//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontOblique.getFontTexture(), 1);
-//			ResourceManager::getInstance().fontOblique.drawString(quote[i], x, y);
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
 			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 		else {
-//			shader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);
-//			ResourceManager::getInstance().font.drawString(quote[i], x, y);
-			shader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
 			ResourceManager::getInstance().fontMedium.drawString(quote[i], x, y);
 		}
 	}
@@ -442,7 +463,7 @@ void testApp::renderBoxedQuote()
 	distShader.begin();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NONE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NONE);
-//	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().font.getFontTexture(), 1);	// moved to drawQuote
+	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
 	distShader.setUniformTexture("colorTex", fractalShaderFbo.getTextureReference(), 2);
 	distShader.setUniformTexture("textAreaTex", textArea.getTextureRef(), 3);
 	distShader.setUniform1f("shaderColor", Params::shaderColor);
@@ -480,6 +501,7 @@ void testApp::renderNormalQuote()
 {
 	ofClear(0, 0, 0, 0);
 	normalFontShader.begin();
+	distShader.setUniformTexture("fontTex", ResourceManager::getInstance().fontMedium.getFontTexture(), 1);
 	ofFloatColor col = (ofFloatColor)(ofColor)Params::lineColor;
 	normalFontShader.setUniform4f("globalColor", col.r, col.g, col.b, col.a);
 	

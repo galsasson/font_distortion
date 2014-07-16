@@ -17,6 +17,11 @@
 
 #version 150
 
+#extension GL_ARB_gpu_shader_fp64 : enable
+#pragma optionNV(fastmath off)
+#pragma optionNV(fastprecision off)
+
+
 uniform float time;
 uniform vec2 resolution;
 uniform float colorSeparation;

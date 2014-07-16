@@ -57,6 +57,10 @@ public:
 	static ofxFloatSlider quoteX;
 	static ofxFloatSlider quoteY;
 	static ofxFloatSlider quoteLineSpace;
+	
+	static ofxFloatSlider panX;
+	static ofxFloatSlider panY;
+	static ofxFloatSlider zoom;
 };
 
 #endif /* defined(__font_distortion__Params__) */

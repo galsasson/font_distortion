@@ -50,3 +50,8 @@ ofxFloatSlider Params::globalSpeed;
 ofxFloatSlider Params::quoteX;
 ofxFloatSlider Params::quoteY;
 ofxFloatSlider Params::quoteLineSpace;
+
+ofxFloatSlider Params::panX;
+ofxFloatSlider Params::panY;
+ofxFloatSlider Params::zoom;
+

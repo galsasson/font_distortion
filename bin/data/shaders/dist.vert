@@ -160,7 +160,7 @@ void main()
 	
 	if (distFromMouse < mouseBlowRange) {
 		float f = mouseBlowAmount * pow(1-(distFromMouse / mouseBlowRange), 1.5);
-		vertNoise += vec4(0, 0,
+		vertNoise = vec4(0, 0,
 						  (snoise(vec2(mouseDistTime*10, 20.0) + position.xy))*f,
 						  0.0);
 	}
@@ -178,9 +178,9 @@ void main()
 	// text editor distortions
 	// upper distortion
 	if (letterParams.r > 0.2) {
-		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*200,
-						  (snoise(vec2(0, time2d.y) + position.xy))*200,
-						  (snoise(vec2(0, time2d.y) + position.xy))*200, 0.0);
+		vertNoise += vec4((snoise(vec2(time2d.x, 0.) + position.xy))*20,
+						  (snoise(vec2(0, time2d.y) + position.xy))*20,
+						  (snoise(vec2(0, time2d.y) + position.xy))*20, 0.0);
 	}
 	
 	// cursor distortion
